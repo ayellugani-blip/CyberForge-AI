@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Threat Hunting | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Learn how AI powers modern threat hunting — from anomaly detection to automated pattern recognition.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="topic-detail.css">
+</head>
+
+<body class="beginner-theme">
+    <canvas id="starCanvas"></canvas>
+    <div class="main-wrapper">
+        <!-- NAVBAR -->
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item active"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="back-btn-wrapper">
+            <a href="AI.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to AI Security
+            </a>
+        </div>
+        <!-- HERO -->
+        <section class="topic-hero">
+            <div class="topic-hero-icon">🤖</div>
+            <h1 class="topic-hero-title">AI Threat Hunting</h1>
+            <p class="topic-hero-sub">Proactive defense through intelligent pattern recognition</p>
+        </section>
+        <!-- INTRO -->
+        <section class="topic-content-wrapper">
+            <p class="topic-intro-para"
+                style="color: #eee; font-size: 1.1rem; max-width: 900px; margin: 0 auto 50px; line-height: 1.8; text-align: center;">
+                AI Threat Hunting leverages machine learning models to scan massive datasets for anomalies that human
+                analysts might miss. Instead of waiting for an alert, <strong>AI-driven hunters</strong> look for subtle
+                "signals in the noise" — identifying zero-day exploits and advanced persistent threats (APTs) before
+                they can cause damage.
+            </p>
+            <!-- SECTION CARDS -->
+            <div class="topic-sections-grid">
+                <div class="topic-section-card">
+                    <div class="card-top-icon">📊</div>
+                    <h3>Behavioral Baselining</h3>
+                    <p>AI models establish a "normal" baseline for user and network behavior. When an account suddenly
+                        accesses unusual files or communicates with a new server, the AI flags it as a high-risk
+                        anomaly.</p>
+                    <div class="card-tags">
+                        <span>UEBA</span><span>K-Means</span><span>Isolation Forest</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🧬</div>
+                    <h3>Malware Fingerprinting</h3>
+                    <p>Deep learning models analyze code structure and behavior to identify malicious intent without
+                        needing signatures. This detects polymorphic malware that changes code to evade traditional AV.
+                    </p>
+                    <div class="card-tags">
+                        <span>Deep Learning</span><span>CNNs</span><span>Binary Analysis</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🌐</div>
+                    <h3>Predictive Analytics</h3>
+                    <p>By analyzing global threat intelligence, AI can predict likely targets and methods of upcoming
+                        attacks. This allows security teams to harden systems proactively before an adversary begins
+                        reconnaissance.</p>
+                    <div class="card-tags">
+                        <span>RNNs</span><span>Time Series</span><span>Forecasting</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🔍</div>
+                    <h3>Automated Log Correlation</h3>
+                    <p>Modern enterprises generate petabytes of logs. AI-powered SIEMs correlate diverse data sources —
+                        cloud logs, network traffic, and endpoint activity — to stitch together the full timeline of a
+                        complex attack.</p>
+                    <div class="card-tags">
+                        <span>NLP</span><span>Graph DBs</span><span>Correlation Engines</span>
+                    </div>
+                </div>
+            </div>
+            <!-- TIPS BLOCK -->
+            <div class="topic-tips-block">
+                <h3><i class="fa-solid fa-bolt"></i> Quick AI Hunting Tips</h3>
+                <ul>
+                    <li>Focus on data quality — garbage in, garbage out. Clean and label your datasets for better model
+                        accuracy.</li>
+                    <li>Avoid over-reliance on automation; human hunters must validate AI findings to reduce false
+                        positives.</li>
+                    <li>Keep your models updated with the latest threat intelligence to prevent them from becoming
+                        obsolete.</li>
+                    <li>Monitor for "model drift" where the accuracy of your detection decays as attacker behaviors
+                        evolve.</li>
+                </ul>
+            </div>
+            <!-- TOOLS -->
+            <div class="topic-tools-block">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Key AI Hunting Tools</h3>
+                <div class="tools-chips">
+                    <span><i class="fa-solid fa-brain"></i> Splunk MLTK</span>
+                    <span><i class="fa-solid fa-magnifying-glass"></i> Microsoft Sentinel</span>
+                    <span><i class="fa-solid fa-robot"></i> Chronicle Security AI</span>
+                    <span><i class="fa-solid fa-microchip"></i> CrowdStrike Charlotte AI</span>
+                </div>
+            </div>
+            <div class="topic-download-section">
+                <div class="download-info">
+                    <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="download-text">
+                        <h3>AI for Cyber Defense</h3>
+                        <p>Complete guide on AI-driven threat hunting and detection (PDF).</p>
+                    </div>
+                </div>
+                <a href="pdfs/ai-hunting.pdf" class="download-btn" download>
+                    <i class="fa-solid fa-download"></i> Download PDF
+                </a>
+            </div>
+        </section>
+    </div>
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Phishing Simulator | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        .inbox-container {
+            max-width: 1400px;
+            margin: 120px auto 40px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 800px;
+            background: rgba(5, 15, 12, 0.95);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+        }
+
+        /* SIDEBAR */
+        .inbox-sidebar {
+            background: #0a0f1d;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .folder-item {
+            padding: 15px 30px;
+            color: #8892b0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .folder-item:hover,
+        .folder-item.active {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border-left: 3px solid #00ff88;
+        }
+
+        .folder-item i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .folder-item.active i {
+            color: #00ff88;
+        }
+
+        .compose-btn {
+            background: #00ff88;
+            color: #000;
+            margin: 10px 20px 30px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        /* OVERRIDE MISSION CONTROL POSITION */
+        .back-btn-premium {
+            top: 25px !important;
+            border-color: rgba(0, 255, 136, 0.5) !important;
+            background: rgba(0, 255, 136, 0.15) !important;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2) !important;
+        }
+
+        .back-btn-premium:hover {
+            background: #00ff88 !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6) !important;
+        }
+
+        /* EMAIL VIEWER */
+        .email-viewer {
+            display: flex;
+            flex-direction: column;
+            background: #0a0505;
+        }
+
+        .viewer-header {
+            padding: 25px 40px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .email-subject {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .sender-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sender-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #000;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .sender-details {
+            flex-grow: 1;
+        }
+
+        .sender-name {
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+
+        .sender-email {
+            color: #8892b0;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* EMAIL CONTENT */
+        .email-body {
+            flex-grow: 1;
+            padding: 40px;
+            color: #d1d8e0;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .email-link {
+            color: #00ff88;
+            text-decoration: underline;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .email-link:hover {
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* TOOLTIP PREVIEW */
+        .link-preview {
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #2ecc71;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            display: none;
+            border: 1px solid #2ecc71;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .email-link:hover .link-preview {
+            display: block;
+        }
+
+        /* ACTIONS BAR */
+        .action-bar {
+            padding: 20px 40px;
+            background: #0a0f1d;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .btn-safe {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-safe:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-report {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .btn-report:hover {
+            background: #00ff88;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .attachment-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .attachment-card:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .attachment-icon {
+            font-size: 1.5rem;
+        }
+
+        /* MODAL */
+        #resultModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #0a0f1d;
+            border: 2px solid #3498db;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .success-text {
+            color: #2ecc71;
+        }
+
+        .fail-text {
+            color: #e74c3c;
+        }
+
+        /* NEW: INVESTIGATION TOOLS */
+        .investigation-panel {
+            padding: 20px 40px;
+            background: rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8892b0;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .tool-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #fff;
+        }
+
+        .tool-btn.detected {
+            border-color: #f1c40f !important;
+            color: #f1c40f !important;
+            background: rgba(241, 196, 15, 0.1) !important;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        }
+
+        .highlight-clue {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px dashed #f1c40f;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 5px rgba(241, 196, 15, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 5px rgba(241, 196, 15, 0.2);
+            }
+        }
+
+        .scanning-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00ff88;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="ctf-theme">
+    <div id="resultModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="modal-title">Investigation Results</h2>
+            <div id="modalScore" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">+50 XP</div>
+            <p id="modalExplanation" style="color: #8892b0; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">
+            </p>
+            <button class="mode-btn" onclick="location.href='phishing.html'">Return to Command Center</button>
+        </div>
+    </div>
+
+    <!-- PREMIUM MISSION CONTROL BUTTON -->
+    <a href="phishing.html" class="back-btn-premium">
+        <img src="logo.png" alt="CyberForge Logo" class="nav-logo"
+            style="height: 30px; margin-right: 10px; vertical-align: middle;">
+        <span>Mission Control</span>
+    </a>
+
+    <div class="inbox-container">
+        <aside class="inbox-sidebar">
+            <div class="folder-item active" onclick="switchFolder(this)"><i class="fa-solid fa-inbox"></i> Inbox (1)
+            </div>
+            <div class="folder-item" onclick="switchFolder(this)"><i class="fa-solid fa-star"></i> Starred</div>
+            <div class="folder-item" onclick="switchFolder(this)"><i class="fa-solid fa-paper-plane"></i> Sent</div>
+            <div class="folder-item" onclick="switchFolder(this)"><i class="fa-solid fa-file-circle-exclamation"></i>
+                Spam</div>
+            <div class="folder-item" onclick="switchFolder(this)"><i class="fa-solid fa-trash"></i> Trash</div>
+        </aside>
+
+        <main class="email-viewer">
+            <header class="viewer-header">
+                <h1 id="subject" class="email-subject">System Scan in Progress...</h1>
+                <div class="sender-info">
+                    <div id="avatar" class="sender-avatar">?</div>
+                    <div class="sender-details">
+                        <span id="senderName" class="sender-name">Scanning...</span>
+                        <span id="senderEmail" class="sender-email">address-verification@pending.local</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="investigation-panel">
+                <button class="tool-btn" id="toolScanSender" onclick="detectIndicator('sender')">
+                    <i class="fa-solid fa-user-shield"></i> Verify Sender
+                </button>
+                <button class="tool-btn" id="toolScanLinks" onclick="detectIndicator('link')">
+                    <i class="fa-solid fa-link-slash"></i> Analyze Links
+                </button>
+                <button class="tool-btn" id="toolScanContent" onclick="detectIndicator('content')">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i> Scrutinize Text
+                </button>
+                <button class="tool-btn" id="toolSandbox" onclick="detectIndicator('attachment')">
+                    <i class="fa-solid fa-box-archive"></i> Sandbox Files
+                </button>
+            </div>
+
+            <article class="email-body" id="emailBody">
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; opacity: 0.5;">
+                    <div class="scanning-loader" style="width: 50px; height: 50px; margin-bottom: 20px;"></div>
+                    <p>Securing connection to training server...</p>
+                </div>
+            </article>
+
+            <footer class="action-bar">
+                <button class="action-btn btn-safe" onclick="submitAction('mark_safe')">Safe Archive</button>
+                <button class="action-btn btn-report" onclick="submitAction('report')">Report Phishing</button>
+            </footer>
+        </main>
+    </div>
+
+    <canvas id="codeCanvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.45;"></canvas>
+
+    <script src="state.js"></script>
+    <script>
+        // RED CODE ANIMATION
+        const canvas = document.getElementById('codeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const words = ["ERROR", "BREACH", "ACCESS", "CRITICAL", "LOCKED", "SCAM", "PHISH", "0101", "1100", "FIREWALL"];
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / 50);
+        const drops = Array(columns).fill(0);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#7f00ff';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#7f00ff';
+            ctx.font = `bold ${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = words[Math.floor(Math.random() * words.length)];
+                ctx.fillText(text, i * 50, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+            ctx.shadowBlur = 0;
+        }
+        setInterval(draw, 60);
+
+        let currentScenario = null;
+        let detectedClues = new Set();
+        let maliciousInteractions = [];
+
+        async function loadScenario() {
+            const token = localStorage.getItem('token');
+
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/email/easy', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Server unreachable");
+                const data = await res.json();
+                renderScenario(data);
+            } catch (err) {
+                console.warn("Using fallback demo scenario", err);
+                renderScenario({
+                    _id: "demo_123",
+                    subject: "URGENT: Unusual activity detected",
+                    sender: "Accounts Team <alert@microsoft-support-global.net>",
+                    messageContent: "We've detected unusual activity on your account. To prevent access being suspended, please verify your identity immediately by clicking the link below or opening the attachment for your case details.",
+                    links: [
+                        { displayUrl: "https://support.microsoft.com/verify", realUrl: "http://account-verification-server.xyz/login", malicious: true }
+                    ],
+                    attachments: [
+                        { name: "incident_report_#992.pdf", malicious: true }
+                    ],
+                    indicators: [
+                        { description: "Suspicious sender domain (microsoft-support-global.net)", type: "sender" },
+                        { description: "Mismatched link URL destination", type: "link" },
+                        { description: "Malicious PDF attachment signature", type: "attachment" }
+                    ]
+                });
+            }
+        }
+
+        function renderScenario(data) {
+            currentScenario = data;
+            detectedClues = new Set();
+            maliciousInteractions = [];
+
+            // Reset UI
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('detected'));
+
+            document.getElementById('subject').innerText = data.subject;
+            document.getElementById('senderName').innerText = data.sender.split('<')[0].trim();
+            document.getElementById('senderEmail').innerText = data.sender.includes('<') ? data.sender.match(/<(.+)>/)[1] : data.sender;
+            document.getElementById('avatar').innerText = document.getElementById('senderName').innerText[0].toUpperCase();
+
+            let bodyHtml = `<div id="mainText"><p>${data.messageContent}</p></div>`;
+
+            if (data.links && data.links.length > 0) {
+                data.links.forEach(link => {
+                    bodyHtml += `
+                        <p style="margin-top: 20px;">
+                            <span class="email-link" id="link_${Math.random().toString(36).substr(2, 9)}" onclick="interact('click_link', '${link.malicious}')">
+                                ${link.displayUrl}
+                                <span class="link-preview">${link.realUrl}</span>
+                            </span>
+                        </p>`;
+                });
+            }
+
+            if (data.attachments && data.attachments.length > 0) {
+                data.attachments.forEach(att => {
+                    bodyHtml += `
+                        <div class="attachment-card" id="att_${Math.random().toString(36).substr(2, 9)}" onclick="interact('download', '${att.malicious}')">
+                            <i class="fa-solid fa-file-pdf attachment-icon"></i>
+                            <span>${att.name}</span>
+                        </div>`;
+                });
+            }
+
+            document.getElementById('emailBody').innerHTML = bodyHtml;
+        }
+
+        function detectIndicator(type) {
+            if (!currentScenario) return;
+
+            const indicators = currentScenario.indicators.filter(i => i.type === type);
+            if (indicators.length > 0) {
+                indicators.forEach(ind => {
+                    detectedClues.add(ind.description);
+                });
+
+                // Visual Feedback
+                const btn = document.querySelector(`.tool-btn[onclick*="${type}"]`);
+                btn.classList.add('detected');
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Found ${indicators.length} Clue${indicators.length > 1 ? 's' : ''}`;
+
+                // Highlight in body
+                if (type === 'sender') document.getElementById('senderEmail').classList.add('highlight-clue');
+                if (type === 'link') document.querySelectorAll('.email-link').forEach(l => l.classList.add('highlight-clue'));
+                if (type === 'attachment') document.querySelectorAll('.attachment-card').forEach(a => a.classList.add('highlight-clue'));
+                if (type === 'content') document.getElementById('mainText').classList.add('highlight-clue');
+
+                setTimeout(() => {
+                    document.querySelectorAll('.highlight-clue').forEach(el => el.classList.remove('highlight-clue'));
+                }, 3000);
+            } else {
+                const btn = document.querySelector(`.tool-btn[onclick*="${type}"]`);
+                btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Nothing Found`;
+                setTimeout(() => {
+                    const icons = { sender: 'user-shield', link: 'link-slash', content: 'magnifying-glass-chart', attachment: 'box-archive' };
+                    const labels = { sender: 'Verify Sender', link: 'Analyze Links', content: 'Scrutinize Text', attachment: 'Sandbox Files' };
+                    btn.innerHTML = `<i class="fa-solid fa-${icons[type]}"></i> ${labels[type]}`;
+                }, 2000);
+            }
+        }
+
+        function interact(type, isMalicious) {
+            if (isMalicious === 'true' || isMalicious === true) {
+                maliciousInteractions.push(type);
+                // Alert for malicious action
+                if (type === 'click_link') {
+                    alert("⚠ SECURITY BREACH: You clicked a potentially malicious link! This would compromise your system in a real attack.");
+                } else if (type === 'download') {
+                    alert("⚠ VIRUS DETECTED: You downloaded an unauthorized attachment. Malware installation would have begun.");
+                }
+            }
+        }
+
+        function switchFolder(el) {
+            document.querySelectorAll('.folder-item').forEach(f => f.classList.remove('active'));
+            el.classList.add('active');
+            if (!el.innerText.includes("Inbox")) {
+                document.getElementById('emailBody').innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; opacity: 0.5;">
+                        <i class="fa-solid fa-folder-open" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>Feature restricted to active Training Simulation.</p>
+                    </div>`;
+            } else {
+                renderScenario(currentScenario);
+            }
+        }
+
+        async function submitAction(action) {
+            const token = localStorage.getItem('token');
+
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        scenarioId: currentScenario._id,
+                        selectedAction: action,
+                        detectedIndicators: Array.from(detectedClues),
+                        maliciousInteractions: maliciousInteractions,
+                        timeTaken: 0
+                    })
+                });
+
+                if (!res.ok) throw new Error("Offline");
+                const result = await res.json();
+                showResult(result);
+            } catch (err) {
+                console.warn("Manual fallback result calculation");
+                // Manual logic for demo/offline mode
+                const isCorrect = (action === "report"); // Typical for phish demo
+                const score = isCorrect ? 50 : -15;
+
+                if (!isCorrect) {
+                    alert("⚠ WARNING: Decision error! You archived a phishing email that contained multiple red flags.");
+                } else {
+                    alert("✅ SUCCESS: Threat neutralized! You correctly identified the phishing identifiers and reported the attack.");
+                }
+
+                showResult({
+                    isCorrect: isCorrect,
+                    score: score,
+                    explanation: "This was a phishing attempt. Key indicators were the suspicious sender domain and mismatched link destination."
+                });
+            }
+        }
+
+        function showResult(result) {
+            const modal = document.getElementById('resultModal');
+            const title = document.getElementById('modalTitle');
+            const score = document.getElementById('modalScore');
+            const exp = document.getElementById('modalExplanation');
+
+            modal.style.display = 'flex';
+            title.innerText = result.isCorrect ? "MISSION SUCCESS" : "MISSION FAILED";
+            title.className = `modal-title ${result.isCorrect ? 'success-text' : 'fail-text'}`;
+            score.innerText = `${result.score > 0 ? '+' : ''}${result.score} XP`;
+            score.style.color = result.score > 0 ? '#2ecc71' : '#e74c3c';
+            exp.innerText = result.explanation;
+        }
+
+        loadScenario();
+    </script>
+</body>
+
+</html>

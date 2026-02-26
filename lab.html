@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Environment | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        body {
+            min-height: 100vh;
+            overflow-y: auto;
+            background: #050509;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.6;
+            transition: opacity 0.5s ease;
+        }
+
+        body.theme-puzzle #bgCanvas,
+        body.theme-escape #bgCanvas,
+        body.theme-scenario #bgCanvas {
+            opacity: 0.8;
+        }
+
+        /* --- Theme Specializations --- */
+        body.theme-puzzle {
+            --accent: #00ffcc;
+            --glow: rgba(0, 255, 204, 0.3);
+        }
+
+        body.theme-escape {
+            --accent: #ffb800;
+            --glow: rgba(255, 184, 0, 0.3);
+        }
+
+        body.theme-scenario {
+            --accent: #ff1a4a;
+            --glow: rgba(255, 26, 74, 0.3);
+        }
+
+        .lab-interface {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-rows: auto auto;
+            gap: 25px;
+            margin: 40px 40px 100px;
+            padding: 0;
+        }
+
+        .lab-panel {
+            background: rgba(5, 5, 9, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            border-top: 3px solid var(--accent, #a252ff);
+            min-height: 350px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent, #a252ff);
+            margin-bottom: 25px;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+
+        .narrative-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #d1d8e0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .object-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .object-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .object-btn:hover {
+            background: var(--glow);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .act-btn {
+            font-size: 0.65rem;
+            padding: 8px 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .act-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        .inv-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            color: #00ff88;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--accent);
+            padding: 8px 18px;
+            color: #a0a8c2;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .log-entry.success {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .log-entry.fail {
+            border-color: #ff1a4a;
+            color: #ff1a4a;
+        }
+
+        .abort-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 40px;
+            background: rgba(5, 5, 9, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8892b0;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            transition: 0.3s;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .abort-btn:hover {
+            background: #ff1a4a;
+            color: #fff;
+            border-color: #ff1a4a;
+            box-shadow: 0 0 30px rgba(255, 26, 74, 0.4);
+            transform: translateX(5px);
+        }
+
+        #completionModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20000;
+            backdrop-filter: blur(25px);
+        }
+    </style>
+</head>
+
+<body class="ctf-theme">
+    <canvas id="starCanvas"></canvas>
+
+    <a href="virtual-labs.html" class="abort-btn"><i class="fa-solid fa-arrow-left"></i> Abort Mission</a>
+
+    <div class="lab-interface">
+        <div class="lab-panel env-panel">
+            <div class="panel-header"><span>ENVIRONMENTAL SCANNER</span><i class="fa-solid fa-satellite-dish"
+                    id="env-icon"></i></div>
+            <div class="narrative-text" id="narrative">Synchronizing Tactical Sensors...</div>
+        </div>
+
+        <div class="lab-panel interaction-panel">
+            <div class="panel-header"><span>NEURAL INTERFACE</span><i class="fa-solid fa-brain" id="neural-icon"></i>
+            </div>
+            <div class="object-grid" id="objectGrid"></div>
+        </div>
+
+        <div class="lab-panel inventory-panel">
+            <div class="panel-header"><span>DATA BUFFER</span><i class="fa-solid fa-microchip"></i></div>
+            <div id="inventoryList"></div>
+        </div>
+
+        <div class="lab-panel log-panel">
+            <div class="panel-header"><span>MISSION LOG</span><i class="fa-solid fa-terminal"></i></div>
+            <div id="actionLog"></div>
+        </div>
+    </div>
+
+    <div id="completionModal">
+        <div class="modal-content"
+            style="text-align: center; background: #050509; padding: 80px; border-radius: 40px; border: 1px solid var(--accent); box-shadow: 0 0 100px var(--glow);">
+            <div style="font-size: 5rem; color: #00ff88; margin-bottom: 30px;"><i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h1 style="font-size: 3.5rem; color: #fff; margin-bottom: 20px; font-weight: 900;">MISSION <span
+                    id="complete-accent" style="color: var(--accent);">COMPLETE</span></h1>
+            <p style="color: #8892b0; font-size: 1.3rem; margin-bottom: 50px;">Environment stabilized. Simulation
+                successful.</p>
+            <button class="mode-btn" onclick="location.href='virtual-labs.html'"
+                style="padding: 18px 45px; font-size: 1.1rem; border-radius: 20px; background: var(--accent); color: #000; font-weight: 900;">RETURN
+                TO COMMAND CENTER</button>
+        </div>
+    </div>
+
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+    <script>
+        const labId = new URLSearchParams(window.location.search).get('id');
+        let currentLabId = labId;
+
+        async function initLab() {
+            try {
+                const state = await CyberState.request(`/labs/start/${labId}`, { method: 'POST' });
+                if (state && !state.message) {
+                    applyTheme(state.labType);
+                    renderState(state);
+                    addLog("Neural link stable. Strategic sensors online.", "success");
+                } else if (state && state.message) {
+                    addLog(`NEURAL ERROR: ${state.message}`, "fail");
+                    addLog("ADVICE: Return to Command Hub and refresh to re-sync Laboratory IDs.", "fail");
+                }
+            } catch (err) {
+                addLog("Link error: HQ unreachable.", "fail");
+            }
+        }
+
+        function applyTheme(type) {
+            document.body.className = `ctf-theme theme-${type}`;
+            const envIcon = document.getElementById('env-icon');
+            const neuralIcon = document.getElementById('neural-icon');
+
+            if (type === 'puzzle') {
+                envIcon.className = 'fa-solid fa-puzzle-piece';
+                neuralIcon.className = 'fa-solid fa-code';
+            } else if (type === 'escape') {
+                envIcon.className = 'fa-solid fa-door-open';
+                neuralIcon.className = 'fa-solid fa-key';
+            } else if (type === 'scenario') {
+                envIcon.className = 'fa-solid fa-shield-halved';
+                neuralIcon.className = 'fa-solid fa-crosshairs';
+            }
+            // Re-bootstrap starfield if needed or just let it update its color from dynamic body class
+        }
+
+        function renderState(state) {
+            if (!state) return;
+            document.title = `${state.labTitle || 'Mission'} - Lab`;
+            document.getElementById('narrative').innerText = state.narrative || "Environment scan in progress...";
+
+            const grid = document.getElementById('objectGrid');
+            if (state.objects) {
+                grid.innerHTML = state.objects.map(obj => `
+                    <div class="object-btn">
+                        <div style="color: #fff; font-weight: 800; font-size: 0.9rem; margin-bottom: 12px;">${obj.name}</div>
+                        <div class="object-actions">
+                            ${obj.actions.map(act => `<button class="act-btn" onclick="performAction('${act}', '${obj.id}')">${act}</button>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const inv = document.getElementById('inventoryList');
+            if (state.inventory) {
+                inv.innerHTML = state.inventory.map(item => `<div class="inv-item"><i class="fa-solid fa-microchip"></i> ${item}</div>`).join('');
+            }
+        }
+
+        async function performAction(action, objectId) {
+            try {
+                const data = await CyberState.request('/labs/action', {
+                    method: 'POST',
+                    body: JSON.stringify({ labId: currentLabId, action, objectId })
+                });
+
+                if (data) {
+                    const msg = data.feedback || data.message || "Strategic action processed.";
+                    addLog(msg, data.success ? "success" : "fail");
+                    if (data.newState) renderState(data.newState);
+                    if (data.completed) {
+                        setTimeout(() => document.getElementById('completionModal').style.display = 'flex', 800);
+                    }
+                }
+            } catch (err) {
+                console.error("Action Error:", err);
+                addLog("Neural link jitter. Retrying transmission...", "fail");
+            }
+        }
+
+        function addLog(msg, type) {
+            const log = document.getElementById('actionLog');
+            const div = document.createElement('div');
+            div.className = `log-entry ${type}`;
+            div.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            log.prepend(div);
+        }
+
+        initLab();
+    </script>
+</body>
+
+</html>

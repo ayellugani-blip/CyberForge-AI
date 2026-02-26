@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Autonomous Security Response | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Learn how AI automates digital forensics and incident response (DFIR) to contain threats at machine speed.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="topic-detail.css">
+</head>
+
+<body class="intermediate-theme">
+    <canvas id="starCanvas"></canvas>
+    <div class="main-wrapper">
+        <!-- NAVBAR -->
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item active"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="back-btn-wrapper">
+            <a href="AI.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to AI Security
+            </a>
+        </div>
+        <!-- HERO -->
+        <section class="topic-hero">
+            <div class="topic-hero-icon">⚡</div>
+            <h1 class="topic-hero-title">Autonomous Defense</h1>
+            <p class="topic-hero-sub">Containing cyber threats at milliseconds, not minutes</p>
+        </section>
+        <!-- INTRO -->
+        <section class="topic-content-wrapper">
+            <p class="topic-intro-para"
+                style="color: #eee; font-size: 1.1rem; max-width: 900px; margin: 0 auto 50px; line-height: 1.8; text-align: center;">
+                In the era of <strong>Autonomous Security Response</strong>, the human is removed from the loop for
+                critical, high-confidence detections. AI systems can automatically isolate compromised endpoints, revoke
+                hijacked credentials, and reconfigure firewalls in real-time, preventing the "breakout" that leads to
+                massive data breaches.
+            </p>
+            <!-- SECTION CARDS -->
+            <div class="topic-sections-grid">
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🤖</div>
+                    <h3>AI-Powered SOAR</h3>
+                    <p>Security Orchestration, Automation, and Response (SOAR) platforms use AI to execute complex
+                        playbooks. From automatically investigating alerts to de-provisioning users, SOAR handles the
+                        "drudge work" of the SOC.</p>
+                    <div class="card-tags">
+                        <span>Orchestration</span><span>Playbooks</span><span>Workflow Automation</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🛡️</div>
+                    <h3>Self-Healing Infrastructure</h3>
+                    <p>AI can detect misconfigurations or vulnerabilities in cloud infrastructure and automatically
+                        "roll back" or patch the system. This ensures that the attack surface remains minimized even as
+                        the environment changes.</p>
+                    <div class="card-tags">
+                        <span>Infrastructure as Code</span><span>Auto-Remediation</span><span>Cloud Security</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">📉</div>
+                    <h3>Dynamic Risk Scoring</h3>
+                    <p>AI continuously calculates a risk score for every user and asset. If a score exceeds a threshold,
+                        the system autonomously applies restrictive policies — such as requiring MFA or limiting
+                        sensitive file access.</p>
+                    <div class="card-tags">
+                        <span>Conditional Access</span><span>Zero Trust</span><span>Risk Analytics</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">📡</div>
+                    <h3>Autonomous EDR/XDR</h3>
+                    <p>Next-gen EDR agents can identify and terminate malicious processes locally on the device, even
+                        when disconnected from the network. They use on-device AI to block ransomware before it can
+                        encrypt the first file.</p>
+                    <div class="card-tags">
+                        <span>Endpoint Security</span><span>Real-time Containment</span><span>AI at the Edge</span>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-download-section">
+                <div class="download-info">
+                    <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="download-text">
+                        <h3>Autonomous Security Response</h3>
+                        <p>Implementing SOAR and AI-automated incident response (PDF).</p>
+                    </div>
+                </div>
+                <a href="pdfs/ai-automation.pdf" class="download-btn" download>
+                    <i class="fa-solid fa-download"></i> Download PDF
+                </a>
+            </div>
+        </section>
+    </div>
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Capture The Flag | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+</head>
+
+<canvas id="starCanvas"></canvas>
+
+<div class="main-wrapper">
+    <nav class="main-nav">
+        <h1 class="logo glitch">
+            <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+            CyberForge AI
+        </h1>
+        <ul class="nav-links">
+            <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                        class="nav-text">Home</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- PREMIUM MISSION CONTROL BUTTON -->
+    <a href="cyber.html" class="back-btn-premium">
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>Main Intelligence</span>
+    </a>
+
+    <section class="ctf-hero">
+        <h1 class="ctf-title">Capture The Flag <span class="accent">(CTF)</span></h1>
+        <p class="ctf-intro">
+            The CyberForge Moderate Range tests advanced correlation, multi-stage investigation, and digital
+            forensics.
+            Move beyond the basics and master the art of capturing flags in high-fidelity adversarial environments.
+        </p>
+    </section>
+
+    <section class="ctf-modes-grid">
+        <!-- Mode 1: Hidden Flags -->
+        <div class="mode-card recon-card" onclick="window.location.href='ctf-hidden.html'">
+            <div class="mode-icon"><i class="fa-solid fa-terminal"></i></div>
+            <h3>Hidden Flags</h3>
+            <p>Investigate system logs, directory structures, and hidden files to find traces of an intruder.</p>
+            <button class="mode-btn">START RECON</button>
+        </div>
+
+        <!-- Mode 3: Steganography -->
+        <div class="mode-card stego-card" onclick="window.location.href='ctf-stego.html'">
+            <div class="mode-icon"><i class="fa-solid fa-eye"></i></div>
+            <h3>Steganography</h3>
+            <p>Use digital forensics to extract hidden data embedded within images and media files.</p>
+            <button class="mode-btn">START FORENSICS</button>
+        </div>
+    </section>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <!-- Brand & Community -->
+        <div class="footer-section">
+            <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+            <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+            <div class="community-box">
+                <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>EMAIL US</span>
+                </a>
+                <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="fa-brands fa-discord"></i>
+                    <span>DISCORD // JUST5</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Site Navigation -->
+        <div class="footer-section">
+            <h4>Intelligence Ops</h4>
+            <ul class="footer-links">
+                <li><a href="cyber.html">Command Center</a></li>
+                <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                <li><a href="AI.html">AI Security Hub</a></li>
+                <li><a href="insights.html">Laws & Ethics</a></li>
+            </ul>
+        </div>
+
+        <!-- Tactical Training -->
+        <div class="footer-section">
+            <h4>Tactical Modules</h4>
+            <ul class="footer-links">
+                <li><a href="ctf.html">Capture The Flag</a></li>
+                <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                <li><a href="phishing.html">Phishing Trainer</a></li>
+                <li><a href="password.html">Password Analyzer</a></li>
+            </ul>
+        </div>
+
+        <!-- Systems Status -->
+        <div class="footer-section">
+            <h4>Neural Status</h4>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>SYSTEMS OPERATIONAL</span>
+            </div>
+            <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                AI Core: v4.2.0-Alpha<br>
+                Uptime: 99.9%<br>
+                Security: Level 5
+            </p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="footer-copyright">
+            <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+        </div>
+
+        <div class="designer-credits">
+            Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+        </div>
+    </div>
+</footer>
+
+<script src="state.js"></script>
+<script src="auth-ui.js"></script>
+<script src="cyber.js"></script>
+<script src="ctf.js"></script>
+</body>
+
+</html>

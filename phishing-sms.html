@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Phishing Simulator | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        body {
+            background: #050505;
+            color: #d1d8e0;
+            overflow-y: auto;
+        }
+
+        .phone-container {
+            width: 380px;
+            height: 750px;
+            margin: 100px auto 40px;
+            background: rgba(5, 12, 5, 0.95);
+            border: 12px solid #0a1a0a;
+            border-radius: 40px;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border: 8px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .phone-header {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 45px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .phone-contact {
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: block;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .phone-status {
+            color: #00ff88;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: linear-gradient(to bottom, rgba(5, 10, 5, 1), rgba(10, 20, 10, 1));
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff88 rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #00ff88;
+            border-radius: 10px;
+        }
+
+        .message-bubble {
+            background: rgba(0, 255, 136, 0.1);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 20px;
+            border-bottom-left-radius: 4px;
+            max-width: 85%;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .sms-link {
+            color: #00ff88;
+            text-decoration: underline;
+            font-weight: 700;
+            cursor: pointer;
+            word-break: break-all;
+            display: block;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .sms-link:hover {
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .sms-timestamp {
+            font-size: 0.7rem;
+            color: #8892b0;
+            margin-top: 8px;
+            display: block;
+            text-align: right;
+        }
+
+        .investigation-tools {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8892b0;
+            padding: 10px 5px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .tool-btn i {
+            font-size: 1rem;
+        }
+
+        .tool-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #fff;
+        }
+
+        .tool-btn.detected {
+            border-color: #f1c40f !important;
+            color: #f1c40f !important;
+            background: rgba(241, 196, 15, 0.1) !important;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        }
+
+        .phone-actions {
+            padding: 20px;
+            background: #0a110a;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .sms-action-btn {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sms-action-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .sms-action-btn.btn-block {
+            border-color: #00ff88;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .sms-action-btn.btn-block:hover {
+            background: #00ff88;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .back-btn-premium {
+            top: 25px !important;
+            border-color: rgba(0, 255, 136, 0.5) !important;
+            background: rgba(0, 255, 136, 0.15) !important;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2) !important;
+        }
+
+        .typing-anim {
+            padding: 10px;
+            color: #00ff88;
+            font-style: italic;
+            font-size: 0.8rem;
+            display: none;
+            font-weight: 600;
+        }
+
+        .highlight-clue {
+            color: #f1c40f !important;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            transition: 0.3s;
+        }
+
+        /* DOT ANIMATION */
+        .dot-flashing {
+            position: relative;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: #e74c3c;
+            color: #e74c3c;
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: .5s;
+            margin-left: 20px;
+            display: inline-block;
+        }
+
+        #resultModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: #050a05;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 255, 136, 0.2);
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        @keyframes dot-flashing {
+            0% {
+                background-color: #00ff88;
+            }
+
+            50%,
+            100% {
+                background-color: rgba(0, 255, 136, .2);
+            }
+        }
+    </style>
+</head>
+
+<body class="ctf-theme">
+    <canvas id="codeCanvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.45;"></canvas>
+
+    <div id="resultModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="modal-title">Investigation Results</h2>
+            <div id="modalScore" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">+50 XP</div>
+            <p id="modalExplanation" style="color: #8892b0; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button class="mode-btn" onclick="loadScenario()">Next Threat</button>
+                <button class="mode-btn" style="background: rgba(255,255,255,0.1);"
+                    onclick="location.href='phishing.html'">Mission Control</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREMIUM MISSION CONTROL BUTTON -->
+    <a href="phishing.html" class="back-btn-premium">
+        <img src="logo.png" alt="CyberForge Logo" class="nav-logo"
+            style="height: 30px; margin-right: 10px; vertical-align: middle;">
+        <span>Mission Control</span>
+    </a>
+
+    <div class="phone-container">
+        <header class="phone-header">
+            <span id="sender" class="phone-contact">+1 (855) 091-2300</span>
+            <span class="phone-status">Security Alert • Today</span>
+        </header>
+
+        <div class="chat-area">
+            <div id="typing" class="typing-anim">Incoming Transmission<span class="dot-flashing"></span></div>
+            <div class="message-bubble" id="smsBubble" style="display: none;">
+                <!-- Message content -->
+            </div>
+        </div>
+
+        <div class="investigation-tools">
+            <button class="tool-btn" id="toolScan" onclick="detectIndicator('sender')">
+                <i class="fa-solid fa-shield-phone"></i>
+                Reputation
+            </button>
+            <button class="tool-btn" id="toolLink" onclick="detectIndicator('link')">
+                <i class="fa-solid fa-link-slash"></i>
+                Deep-Scan Link
+            </button>
+            <button class="tool-btn" id="toolTone" onclick="detectIndicator('content')">
+                <i class="fa-solid fa-ear-listen"></i>
+                Tone Check
+            </button>
+        </div>
+
+        <div class="phone-actions">
+            <button class="sms-action-btn" onclick="submitAction('ignore')">Ignore</button>
+            <button class="sms-action-btn btn-block" onclick="submitAction('block')">Block & Report</button>
+        </div>
+    </div>
+
+    <script src="state.js"></script>
+    <script>
+        // RED CODE ANIMATION
+        const canvas = document.getElementById('codeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const words = ["ERROR", "MALWARE", "SPOOF", "BREACH", "ACCESS", "0101", "1100", "LOCKED", "SCAM", "PHISH"];
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / 50);
+        const drops = Array(columns).fill(0);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#7f00ff';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#7f00ff';
+            ctx.font = `bold ${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = words[Math.floor(Math.random() * words.length)];
+                ctx.fillText(text, i * 50, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 60);
+
+        let currentScenario = null;
+        let detectedClues = new Set();
+        let maliciousInteractions = [];
+        let scenarioIndex = 0;
+
+        const demoScenarios = [
+            {
+                _id: "demo_sms_1",
+                sender: "+1 (888) 722-6767",
+                messageContent: "ALERT: Your bank account has been locked due to suspicious activity. Verify identity immediately: http://fake-bank.net/security",
+                indicators: [
+                    { description: "Mismatched sender reputation score", type: "sender" },
+                    { description: "Mismatched shortened link destination", type: "link" },
+                    { description: "High-pressure urgency language", type: "content" }
+                ],
+                explanation: "Smishing attack! Banks never send account locks with direct login links via SMS."
+            },
+            {
+                _id: "demo_sms_2",
+                sender: "FEDEX-NOTICE",
+                messageContent: "Delivery Failure: We attempted to deliver your package #9822. Redelivery requires $1.99 fee: http://fedex-redelivery-portal.xyz",
+                indicators: [
+                    { description: "Non-official alphanumeric sender ID", type: "sender" },
+                    { description: "Suspicious non-official domain (.xyz)", type: "link" }
+                ],
+                explanation: "Delivery scam! Courier services don't use .xyz domains for redelivery fees."
+            }
+        ];
+
+        async function loadScenario() {
+            document.getElementById('resultModal').style.display = 'none';
+            const typing = document.getElementById('typing');
+            const bubble = document.getElementById('smsBubble');
+
+            typing.style.display = 'block';
+            bubble.style.display = 'none';
+
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/sms/easy', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Offline");
+                const data = await res.json();
+                renderScenario(data);
+            } catch (err) {
+                console.warn("Rotating demo SMS scenarios");
+                renderScenario(demoScenarios[scenarioIndex % demoScenarios.length]);
+                scenarioIndex++;
+            }
+        }
+
+        function renderScenario(data) {
+            currentScenario = data;
+            detectedClues = new Set();
+            maliciousInteractions = [];
+
+            const typing = document.getElementById('typing');
+            const bubble = document.getElementById('smsBubble');
+
+            setTimeout(() => {
+                typing.style.display = 'none';
+                bubble.style.display = 'block';
+                document.getElementById('sender').innerText = data.sender;
+
+                let content = `<p>${data.messageContent}</p>`;
+                if (data.links && data.links.length > 0) {
+                    data.links.forEach(link => {
+                        content += `<span class="sms-link" onclick="interact('click_link', '${link.malicious}')">${link.displayUrl}</span>`;
+                    });
+                }
+                bubble.innerHTML = content + '<span class="sms-timestamp">Just now</span>';
+
+                // Reset tools
+                document.querySelectorAll('.tool-btn').forEach(b => {
+                    b.classList.remove('detected');
+                    b.innerHTML = b.id === 'toolScan' ? '<i class="fa-solid fa-shield-phone"></i> Reputation' :
+                        (b.id === 'toolLink' ? '<i class="fa-solid fa-link-slash"></i> Deep-Scan Link' :
+                            '<i class="fa-solid fa-ear-listen"></i> Tone Check');
+                });
+            }, 1500);
+        }
+
+        function detectIndicator(type) {
+            if (!currentScenario) return;
+            const indicators = currentScenario.indicators.filter(i => i.type === type);
+
+            const btnId = type === 'sender' ? 'toolScan' : (type === 'link' ? 'toolLink' : 'toolTone');
+            const btn = document.getElementById(btnId);
+
+            if (indicators.length > 0) {
+                indicators.forEach(ind => detectedClues.add(ind.description));
+                btn.classList.add('detected');
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Found Clues`;
+
+                if (type === 'sender') document.getElementById('sender').classList.add('highlight-clue');
+                if (type === 'link') document.querySelectorAll('.sms-link').forEach(l => l.classList.add('highlight-clue'));
+                if (type === 'content') document.getElementById('smsBubble').classList.add('highlight-clue');
+
+                setTimeout(() => {
+                    document.querySelectorAll('.highlight-clue').forEach(el => el.classList.remove('highlight-clue'));
+                }, 3000);
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Safe Result`;
+            }
+        }
+
+        function interact(type, isMalicious) {
+            if (isMalicious === 'true' || isMalicious === true) {
+                maliciousInteractions.push(type);
+                alert("⚠ SECURITY ALERT: You tapped a potentially malicious SMS link! This would lead to a credential stealing site.");
+            }
+        }
+
+        async function submitAction(action) {
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/submit', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        scenarioId: currentScenario._id,
+                        selectedAction: action,
+                        detectedIndicators: Array.from(detectedClues),
+                        maliciousInteractions: maliciousInteractions,
+                        timeTaken: 0
+                    })
+                });
+
+                if (!res.ok) throw new Error("Offline");
+                const result = await res.json();
+                showResult(result);
+            } catch (err) {
+                const isCorrect = (action === 'block');
+                const score = isCorrect ? 50 : -15;
+
+                if (!isCorrect) {
+                    alert("⚠ WARNING: Decision error! You ignored an active smishing threat.");
+                } else {
+                    alert("✅ SUCCESS: Threat neutralized! You correctly identified the deceptive number and malicious link.");
+                }
+
+                showResult({
+                    isCorrect: isCorrect,
+                    score: score,
+                    explanation: currentScenario.explanation
+                });
+            }
+        }
+
+        function showResult(result) {
+            const modal = document.getElementById('resultModal');
+            document.getElementById('modalTitle').innerText = result.isCorrect ? "THREAT BLOCKED" : "THREAT SUCCESS";
+            document.getElementById('modalTitle').className = `modal-title ${result.isCorrect ? 'success-text' : 'fail-text'}`;
+            document.getElementById('modalScore').innerText = `${result.score > 0 ? '+' : ''}${result.score} XP`;
+            document.getElementById('modalScore').style.color = result.score > 0 ? '#2ecc71' : '#e74c3c';
+            document.getElementById('modalExplanation').innerText = result.explanation;
+            modal.style.display = 'flex';
+        }
+
+        loadScenario();
+    </script>
+</body>
+
+</html>

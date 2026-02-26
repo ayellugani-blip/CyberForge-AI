@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Social Phishing Simulator | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        body {
+            background: #050505;
+            color: #d1d8e0;
+            overflow-x: hidden;
+        }
+
+        .social-feed-container {
+            max-width: 800px;
+            margin: 120px auto 40px;
+            background: rgba(5, 15, 12, 0.95);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 255, 136, 0.05);
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+        }
+
+        .post-card {
+            padding: 30px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .profile-pic {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .verify-badge {
+            color: #3498db;
+            font-size: 0.9rem;
+        }
+
+        .profile-handle {
+            color: #00ff88;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .post-content {
+            color: #d1d8e0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 0 5px;
+        }
+
+        .post-image-container {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            transition: 0.3s;
+        }
+
+        .post-image-container:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .post-image {
+            width: 100%;
+            display: block;
+            transition: 0.5s;
+        }
+
+        .investigation-tools {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(231, 76, 60, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(231, 76, 60, 0.1);
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8892b0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tool-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #fff;
+        }
+
+        .tool-btn.detected {
+            border-color: #f1c40f !important;
+            color: #f1c40f !important;
+            background: rgba(241, 196, 15, 0.1) !important;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        }
+
+        #metadataPopup {
+            position: absolute;
+            background: #1a0a0a;
+            border: 1px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #fff;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            width: 250px;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .metadata-line {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metadata-label {
+            color: #8892b0;
+        }
+
+        .metadata-value {
+            color: #00ff88;
+            font-family: monospace;
+        }
+
+        .action-container {
+            padding: 30px;
+            background: rgba(5, 15, 12, 0.5);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .action-btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-btn-premium {
+            top: 25px !important;
+            border-color: rgba(0, 255, 136, 0.5) !important;
+            background: rgba(0, 255, 136, 0.15) !important;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2) !important;
+        }
+
+        .btn-safe {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-safe:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-report {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .btn-report:hover {
+            background: #00ff88;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .highlight-clue {
+            color: #f1c40f !important;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            transition: 0.3s;
+        }
+
+        #resultModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: #050a08;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 255, 136, 0.2);
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        /* BUTTON RED OVERRIDES */
+        .mode-btn {
+            background: rgba(0, 255, 136, 0.1) !important;
+            border: 1px solid #00ff88 !important;
+            color: #00ff88 !important;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .mode-btn:hover {
+            background: #00ff88 !important;
+            color: #000 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+    </style>
+</head>
+
+<body class="ctf-theme">
+    <canvas id="codeCanvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.45;"></canvas>
+
+    <div id="resultModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="modal-title">Investigation Results</h2>
+            <div id="modalScore" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">+50 XP</div>
+            <p id="modalExplanation" style="color: #8892b0; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button class="mode-btn" onclick="loadScenario()">Next Investigation</button>
+                <button class="mode-btn" style="background: rgba(255,255,255,0.1);"
+                    onclick="location.href='phishing.html'">Mission Control</button>
+            </div>
+        </div>
+    </div>
+
+    <a href="phishing.html" class="back-btn-premium">
+        <img src="logo.png" alt="CyberForge Logo" class="nav-logo"
+            style="height: 30px; margin-right: 10px; vertical-align: middle;">
+        <span>Mission Control</span>
+    </a>
+
+    <div class="social-feed-container">
+        <div class="post-card">
+            <header class="post-header">
+                <div id="avatar" class="profile-pic">?</div>
+                <div class="profile-info">
+                    <div class="profile-name">
+                        <span id="profileName">Loading...</span>
+                        <i class="fa-solid fa-circle-check verify-badge"></i>
+                    </div>
+                    <div id="handle" class="profile-handle">@analysing...</div>
+                </div>
+                <div class="follower-count" id="followerCount"
+                    style="color: #8892b0; font-size: 0.85rem; font-weight: 700;">842 Followers</div>
+            </header>
+
+            <div id="postContent" class="post-content">
+                <!-- Post text -->
+            </div>
+
+            <div class="post-image-container" onclick="interact('click_link', 'true')">
+                <img id="postImg"
+                    src="https://images.unsplash.com/photo-1617802690992-15d93263d3a9?q=80&w=2070&auto=format&fit=crop"
+                    class="post-image">
+                <div id="metadataPopup">
+                    <div class="metadata-line"><span class="metadata-label">Camera:</span> <span
+                            class="metadata-value">Unknown</span></div>
+                    <div class="metadata-line"><span class="metadata-label">Edited:</span> <span class="metadata-value"
+                            id="metaEdited">Yes</span></div>
+                    <div class="metadata-line"><span class="metadata-label">GPS:</span> <span
+                            class="metadata-value">Disabled</span></div>
+                    <div class="metadata-line"><span class="metadata-label">Server:</span> <span class="metadata-value"
+                            id="metaOrigin">cdn-malicious.tk</span></div>
+                </div>
+            </div>
+
+            <div class="investigation-tools">
+                <button class="tool-btn" id="toolMetadata" onclick="inspectMetadata(event)"><i
+                        class="fa-solid fa-microscope"></i> Inspect Metadata</button>
+                <button class="tool-btn" id="toolHandle" onclick="detectIndicator('profile')"><i
+                        class="fa-solid fa-user-secret"></i> Scan Handle</button>
+                <button class="tool-btn" id="toolClaims" onclick="detectIndicator('content')"><i
+                        class="fa-solid fa-money-bill-transfer"></i> Analyze Claims</button>
+            </div>
+        </div>
+
+        <div class="action-container">
+            <button class="action-btn btn-safe" onclick="submitAction('mark_safe')">Ignore Post</button>
+            <button class="action-btn btn-report" onclick="submitAction('report')">Report Fraud</button>
+        </div>
+    </div>
+
+    <script src="state.js"></script>
+    <script>
+        // RED CODE ANIMATION
+        const canvas = document.getElementById('codeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const words = ["BREACH", "SPOOF", "MALWARE", "SCAM", "PHISH", "0101", "1100", "BOTNET", "INJECT", "FRAUD"];
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / 50);
+        const drops = Array(columns).fill(0);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#7f00ff';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#7f00ff';
+            ctx.font = `bold ${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = words[Math.floor(Math.random() * words.length)];
+                ctx.fillText(text, i * 50, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+            ctx.shadowBlur = 0;
+        }
+        setInterval(draw, 60);
+
+        let currentScenario = null;
+        let detectedClues = new Set();
+        let maliciousInteractions = [];
+        let scenarioIndex = 0;
+
+        const demoScenarios = [
+            {
+                _id: "demo_social_1",
+                sender: "Official Giveaway",
+                img: "https://images.unsplash.com/photo-1617802690992-15d93263d3a9?q=80&w=2070&auto=format&fit=crop",
+                messageContent: "Congratulations @User! You've been selected as our winner. Click the image to claim your new VR headset instantly!",
+                indicators: [
+                    { description: "Mismatched handle vs official name", type: "profile" },
+                    { description: "Too-good-to-be-true giveaway claim", type: "content" },
+                    { description: "Suspicious image metadata (edited in Photoshop)", type: "metadata" }
+                ],
+                explanation: "Scam detected! The 'Verified' name hid a deceptive handle, and the metadata revealed non-official editing."
+            },
+            {
+                _id: "demo_social_2",
+                sender: "Security Alert Bot",
+                img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2070&auto=format&fit=crop",
+                messageContent: "URGENT: Your account password was changed from Moscow, RU. If this wasn't you, click and verify your profile immediately.",
+                indicators: [
+                    { description: "Impersonal greeting/generic alert", type: "content" },
+                    { description: "Suspicious server origin in metadata", type: "metadata" }
+                ],
+                explanation: "Phishing attempt! The alert used fear to drive clicks, and the image server was a known malicious domain."
+            }
+        ];
+
+        async function loadScenario() {
+            document.getElementById('resultModal').style.display = 'none';
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/image/medium', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Offline");
+                const data = await res.json();
+                renderScenario(data);
+            } catch (err) {
+                console.warn("Rotating demo Social scenarios");
+                renderScenario(demoScenarios[scenarioIndex % demoScenarios.length]);
+                scenarioIndex++;
+            }
+        }
+
+        function renderScenario(data) {
+            currentScenario = data;
+            detectedClues = new Set();
+            maliciousInteractions = [];
+
+            document.getElementById('profileName').innerText = data.sender;
+            document.getElementById('avatar').innerText = data.sender[0].toUpperCase();
+            document.getElementById('postContent').innerText = data.messageContent;
+            document.getElementById('handle').innerText = '@' + data.sender.toLowerCase().replace(/\s/g, '_') + '_verified_official';
+            if (data.img) document.getElementById('postImg').src = data.img;
+
+            // Reset tools
+            document.querySelectorAll('.tool-btn').forEach(b => {
+                b.classList.remove('detected');
+                b.innerHTML = b.id === 'toolMetadata' ? '<i class="fa-solid fa-microscope"></i> Inspect Metadata' :
+                    (b.id === 'toolHandle' ? '<i class="fa-solid fa-user-secret"></i> Scan Handle' :
+                        '<i class="fa-solid fa-money-bill-transfer"></i> Analyze Claims');
+            });
+        }
+
+        function inspectMetadata(e) {
+            const popup = document.getElementById('metadataPopup');
+            popup.style.display = 'block';
+            popup.style.left = '50%';
+            popup.style.top = '40%';
+            popup.style.transform = 'translate(-50%, -50%)';
+
+            const btn = document.getElementById('toolMetadata');
+            btn.classList.add('detected');
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Analysis Complete';
+
+            detectedClues.add("Suspicious image metadata (edited in Photoshop)");
+            setTimeout(() => { popup.style.display = 'none'; }, 4000);
+        }
+
+        function detectIndicator(type) {
+            if (!currentScenario) return;
+            const indicators = currentScenario.indicators.filter(i => i.type === type);
+
+            const btnId = type === 'profile' ? 'toolHandle' : 'toolClaims';
+            const btn = document.getElementById(btnId);
+
+            if (indicators.length > 0) {
+                indicators.forEach(ind => detectedClues.add(ind.description));
+                btn.classList.add('detected');
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> Found Clues`;
+
+                if (type === 'profile') document.getElementById('handle').classList.add('highlight-clue');
+                if (type === 'content') document.getElementById('postContent').classList.add('highlight-clue');
+
+                setTimeout(() => {
+                    document.querySelectorAll('.highlight-clue').forEach(el => el.classList.remove('highlight-clue'));
+                }, 3000);
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Nothing Found`;
+            }
+        }
+
+        function interact(type, isMalicious) {
+            if (isMalicious === 'true') {
+                maliciousInteractions.push(type);
+                alert("⚠ PHISHING WARNING: You clicked a potentially malicious post link! Your session cookies might have been intercepted.");
+            }
+        }
+
+        async function submitAction(action) {
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch('http://localhost:4000/api/phishing/submit', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        scenarioId: currentScenario._id,
+                        selectedAction: action,
+                        detectedIndicators: Array.from(detectedClues),
+                        maliciousInteractions: maliciousInteractions,
+                        timeTaken: 0
+                    })
+                });
+
+                if (!res.ok) throw new Error("Offline");
+                const result = await res.json();
+                showResult(result);
+            } catch (err) {
+                const isCorrect = (action === 'report');
+                const score = isCorrect ? 50 : -15;
+
+                if (!isCorrect) {
+                    alert("⚠ WARNING: Decision error! You ignored a fraudulent post that contained multiple red flags.");
+                } else {
+                    alert("✅ SUCCESS: Fraud report filed! You correctly identified the deceptive profile and scam claims.");
+                }
+
+                showResult({
+                    isCorrect: isCorrect,
+                    score: score,
+                    explanation: currentScenario.explanation
+                });
+            }
+        }
+
+        function showResult(result) {
+            const modal = document.getElementById('resultModal');
+            document.getElementById('modalTitle').innerText = result.isCorrect ? "SCAM BUSTED" : "SCAM SUCCEEDED";
+            document.getElementById('modalTitle').className = `modal-title ${result.isCorrect ? 'success-text' : 'fail-text'}`;
+            document.getElementById('modalScore').innerText = `${result.score > 0 ? '+' : ''}${result.score} XP`;
+            document.getElementById('modalScore').style.color = result.score > 0 ? '#2ecc71' : '#e74c3c';
+            document.getElementById('modalExplanation').innerText = result.explanation;
+            modal.style.display = 'flex';
+        }
+
+        loadScenario();
+    </script>
+</body>
+
+</html>

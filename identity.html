@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Identity Protection | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="topic-detail.css">
+</head>
+
+<body class="beginner-theme">
+    <canvas id="starCanvas"></canvas>
+    <div class="main-wrapper">
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item active"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+                <li><a href="insights.html" class="nav-item"><i class="fa-solid fa-lightbulb nav-icon"></i><span
+                            class="nav-text">Insights</span></a></li>
+
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="back-btn-wrapper">
+            <a href="cybersecurity.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to
+                Cybersecurity</a>
+        </div>
+        <section class="topic-hero">
+            <div class="topic-hero-icon">🛡️</div>
+            <h1 class="topic-hero-title">Identity Protection</h1>
+            <p class="topic-hero-sub">The first line of defense in the digital age starts with you.</p>
+        </section>
+        <section class="topic-content-wrapper">
+            <p class="topic-intro-para">Identity Protection is no longer just about choosing a "strong" password. It is
+                a comprehensive framework comprising authentication, authorization, and accounting (AAA) to ensure that
+                only the right people have the right access to the right resources, at the right time.</p>
+            <div class="topic-sections-grid">
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🔑</div>
+                    <h3>Advanced Credential Security</h3>
+                    <p>Modern credential security goes beyond characters. It involves using passphrases instead of
+                        passwords to increase entropy. Attackers today use "credential stuffing"—taking leaked passwords
+                        from one site and trying them on thousands of others. Unique passwords for every service are the
+                        only way to contain a breach.</p>
+                    <div class="card-tags"><span>Password Entropy</span><span>Credential
+                            Stuffing</span><span>Passphrases</span></div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">📲</div>
+                    <h3>Multi-Layered Authentication</h3>
+                    <p>MFA is the single most effective way to prevent account takeovers. While SMS codes are vulnerable
+                        to SIM swapping, hardware tokens (like YubiKeys) and app-based authenticators (TOTP) provide a
+                        cryptographically secure second factor. Implementing FIDO2/WebAuthn standards allows for
+                        phishing-resistant logins.</p>
+                    <div class="card-tags"><span>FIDO2 / WebAuthn</span><span>SIM Swapping</span><span>Phishing
+                            Resistance</span></div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🕸️</div>
+                    <h3>Social Engineering Defense</h3>
+                    <p>Technology alone cannot solve human-centric attacks. Vishing (voice phishing) and Smishing (SMS
+                        phishing) are on the rise. Deepfake audio can now impersonate executives to authorize fraudulent
+                        transfers. Identity protection now includes training users to recognize subtle patterns of
+                        manipulation and urgency.</p>
+                    <div class="card-tags"><span>Vishing</span><span>Deepfake Defense</span><span>Human Firewall</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">💼</div>
+                    <h3>Privileged Access (PAM)</h3>
+                    <p>In a business environment, protecting regular users isn't enough. Privileged Access Management
+                        (PAM) focuses on protecting administrative accounts. By using "Just-In-Time" access, admins only
+                        get high-level permissions when they need them, reducing the window of opportunity for an
+                        attacker to exploit their credentials.</p>
+                    <div class="card-tags"><span>JIT Access</span><span>Privilege Escalation</span><span>IAM
+                            Framework</span></div>
+                </div>
+            </div>
+            <div class="topic-tips-block">
+                <h3><i class="fa-solid fa-bolt"></i> Pro-Identity Protection Tips</h3>
+                <ul>
+                    <li><strong>Switch to Passphrases:</strong> Use phrases like "BlueMountains-2024-CoffeeTime" for
+                        extreme security.</li>
+                    <li><strong>Audit Your Third Parties:</strong> Many breaches start at a small vendor. Use SSO to
+                        control access centrally.</li>
+                    <li><strong>Enable Account Lockouts:</strong> Prevent brute-force attacks by locking accounts after
+                        5 failed attempts.</li>
+                    <li><strong>Check Leaks Regularly:</strong> Use tools that scan the dark web for your email address
+                        to spot breaches early.</li>
+                </ul>
+            </div>
+            <div class="topic-download-section">
+                <div class="download-info">
+                    <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="download-text">
+                        <h3>Identity Protection Guide</h3>
+                        <p>Download the complete study module in PDF format for offline learning.</p>
+                    </div>
+                </div>
+                <a href="pdfs/identity-protection.pdf" class="download-btn" download>
+                    <i class="fa-solid fa-download"></i> Download PDF
+                </a>
+            </div>
+            <div class="topic-tools-block">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Expert Tools</h3>
+                <div class="tools-chips">
+                    <span><i class="fa-solid fa-shield-halved"></i> Okta Identity</span>
+                    <span><i class="fa-solid fa-key"></i> Bitwarden Enterprise</span>
+                    <span><i class="fa-solid fa-fingerprint"></i> Microsoft Authenticator</span>
+                    <span><i class="fa-solid fa-magnifying-glass-chart"></i> HaveIBeenPwned API</span>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+</body>
+
+</html>

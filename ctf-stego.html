@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forensics Desk: Steganography | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        .forensics-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 35px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .img-viewer-card {
+            background: rgba(5, 10, 20, 0.98);
+            border: 1px solid rgba(189, 195, 199, 0.6);
+            border-radius: 12px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            box-shadow: 0 0 50px rgba(189, 195, 199, 0.1);
+            backdrop-filter: blur(25px);
+        }
+
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(189, 195, 199, 0.2);
+            padding-bottom: 20px;
+        }
+
+        .viewer-title {
+            color: #bdc3c7;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+        }
+
+        .image-canvas-wrapper {
+            background: #000;
+            border-radius: 12px;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: crosshair;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #stegoImg {
+            max-width: 100%;
+            max-height: 100%;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            image-rendering: pixelated;
+        }
+
+        .channel-controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+        }
+
+        .channel-btn {
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: #8892b0;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-weight: 900;
+            border-radius: 8px;
+        }
+
+        .channel-btn:hover {
+            background: rgba(189, 195, 199, 0.1);
+            color: #fff;
+        }
+
+        .channel-btn.active {
+            border-color: #bdc3c7;
+            color: #fff;
+            background: rgba(189, 195, 199, 0.3);
+        }
+
+        .zoom-lens {
+            position: absolute;
+            border: 2px solid #bdc3c7;
+            width: 180px;
+            height: 180px;
+            pointer-events: none;
+            display: none;
+            background-repeat: no-repeat;
+            z-index: 100;
+            border-radius: 20px;
+            /* Modern square-round look */
+            box-shadow: 0 0 40px rgba(189, 195, 199, 0.4), inset 0 0 20px rgba(189, 195, 199, 0.2);
+            backdrop-filter: brightness(1.2) contrast(1.1);
+        }
+
+        /* CLUE MARKERS */
+        .clue-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(189, 195, 199, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 50;
+            opacity: 0;
+            /* Hidden by default */
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bdc3c7;
+            font-size: 10px;
+            font-family: 'Space Mono';
+            background: rgba(189, 195, 199, 0.05);
+        }
+
+        .clue-marker.revealed {
+            opacity: 1 !important;
+            border-width: 2px;
+            box-shadow: 0 0 20px #bdc3c7;
+            background: rgba(189, 195, 199, 0.2);
+        }
+
+        #challengeTitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.22rem;
+            font-weight: 1000;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 0 0 30px rgba(189, 195, 199, 0.3);
+            margin-top: 5px;
+        }
+
+        .challenge-info {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+        }
+
+        .back-btn-premium {
+            position: relative !important;
+            display: inline-flex;
+            margin-bottom: 20px;
+            top: 0 !important;
+            left: 0 !important;
+            border-color: #bdc3c7 !important;
+            color: #bdc3c7 !important;
+            background: rgba(189, 195, 199, 0.05);
+        }
+
+        .back-btn-premium:hover {
+            background: #bdc3c7 !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px #bdc3c7 !important;
+        }
+
+        /* NEURAL ALERT SYSTEM */
+        #neuralAlert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 2, 2, 0.95);
+            border: 2px solid #bdc3c7;
+            border-left: 8px solid #bdc3c7;
+            padding: 20px 40px;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(189, 195, 199, 0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .progress-indicator {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .prog-dot {
+            width: 30px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .prog-dot.active {
+            background: #bdc3c7;
+            box-shadow: 0 0 10px #bdc3c7;
+        }
+    </style>
+</head>
+
+<div id="neuralAlert"></div>
+<canvas id="ctfCanvas"></canvas>
+
+<div class="forensics-container">
+    <div class="challenge-info">
+        <a href="ctf.html" class="back-btn-premium">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Mission Control</span>
+        </a>
+        <h2 id="challengeTitle">
+            <img src="logo.png" alt="CyberForge Logo" class="nav-logo"
+                style="display:inline-block; vertical-align:middle; margin-right:15px;">
+            FORENSICS DESK: CROSS-SPECTRAL
+        </h2>
+    </div>
+
+    <div class="forensics-main">
+
+        <div class="img-viewer-card">
+            <div class="viewer-header">
+                <div class="viewer-title">LENS_PRO_v8.0 // MODE: SPECTRAL_RECOVERY</div>
+                <div class="header-dots">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+            </div>
+            <div class="image-canvas-wrapper" id="imgWrapper">
+                <img id="stegoImg" src="" alt="Evidence">
+                <div id="zoomLens" class="zoom-lens"></div>
+                <!-- Markers will be injected here -->
+                <div id="markerContainer"></div>
+            </div>
+            <div class="channel-controls">
+                <button class="channel-btn active" onclick="setChannel('none')">Visible</button>
+                <button class="channel-btn" onclick="setChannel('red')">Red LSB</button>
+                <button class="channel-btn" onclick="setChannel('green')">Green LSB</button>
+                <button class="channel-btn" onclick="setChannel('blue')">Blue LSB</button>
+            </div>
+        </div>
+    </div>
+    <div class="forensics-sidebar">
+        <div class="data-panel"
+            style="background: rgba(10, 25, 47, 0.95); border: 1px solid rgba(189, 195, 199, 0.3); border-radius: 12px; padding: 30px;">
+            <h4 id="levelLabel" style="color:#bdc3c7; text-transform:uppercase; font-weight:900; margin-bottom:10px;">
+                Case Level: 01</h4>
+            <div class="progress-indicator" id="clueProgress">
+                <div class="prog-dot"></div>
+                <div class="prog-dot"></div>
+                <div class="prog-dot"></div>
+            </div>
+            <p id="caseDesc" style="color: #8892b0; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">Use the
+                lens to identify phantom digital markers. Analyze all 3 fragments to reconstruct the sector flag.</p>
+            <div style="margin-top:20px;">
+                <input type="text" class="flag-input" id="flagInput" placeholder="FLAG{...}"
+                    style="width:100%; box-sizing:border-box; margin-bottom:15px; background: #000; border: 1px solid #bdc3c7; padding: 12px; color: #fff; font-family: 'Space Mono'; border-radius: 4px;">
+                <button class="submit-btn" id="submitBtn"
+                    style="width:100%; background:#bdc3c7; padding: 15px; color: #000; font-weight: 1000; cursor: pointer; border: none; border-radius: 4px; text-transform: uppercase;">Ratify
+                    Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="state.js"></script>
+<script src="auth-ui.js"></script>
+<script>
+    const LEVELS = [
+        {
+            id: 1,
+            desc: "Operation Starfield: Sector A. A high-altitude satellite image contains microscopic hash fragments. Locate them all.",
+            img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1400",
+            clues: [
+                { x: 25, y: 30, text: "FLG{SP3CT" },
+                { x: 70, y: 55, text: "R4L_V" },
+                { x: 45, y: 80, text: "0X_26}" }
+            ],
+            flag: "FLAG{SP3CTR4L_V0X_26}"
+        },
+        {
+            id: 2,
+            desc: "Operation DeepNet: Sector B. Anomalous pixel values detected in the server room heat-map. Reconstruct the override key.",
+            img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1400",
+            clues: [
+                { x: 15, y: 45, text: "FLG{N3UR4" },
+                { x: 50, y: 20, text: "L_DRE" },
+                { x: 85, y: 70, text: "4M_99}" }
+            ],
+            flag: "FLAG{N3UR4L_DRE4M_99}"
+        }
+    ];
+
+    let currentLevelIndex = 0;
+    let foundClues = new Set();
+
+    const canvas = document.getElementById('ctfCanvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    const chars = 'XYZ777ALPHA';
+    const fontSize = 18;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#bdc3c7';
+        ctx.font = fontSize + 'px Space Mono';
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.shadowBlur = 15; ctx.shadowColor = '#bdc3c7';
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(draw, 50);
+
+    function showNeuralAlert(msg, level = 'info') {
+        const alert = document.getElementById('neuralAlert');
+        alert.innerText = `>> ${msg.toUpperCase()}`;
+        alert.style.borderColor = level === 'error' ? '#ff4d4d' : '#bdc3c7';
+        alert.style.display = 'block';
+        setTimeout(() => { alert.style.display = 'none'; }, 4000);
+    }
+
+    function setChannel(color) {
+        const img = document.getElementById('stegoImg');
+        document.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        if (color === 'none') img.style.filter = 'none';
+        else if (color === 'red') img.style.filter = 'contrast(300%) sepia(100%) hue-rotate(-50deg)';
+        else if (color === 'green') img.style.filter = 'contrast(300%) sepia(100%) hue-rotate(70deg)';
+        else if (color === 'blue') img.style.filter = 'contrast(400%) sepia(100%) hue-rotate(200deg)';
+    }
+
+    const wrapper = document.getElementById('imgWrapper');
+    const img = document.getElementById('stegoImg');
+    const lens = document.getElementById('zoomLens');
+
+    function loadLevel(idx) {
+        const level = LEVELS[idx];
+        currentLevelIndex = idx;
+        foundClues.clear();
+
+        document.getElementById('levelLabel').innerText = `Case Level: 0${level.id}`;
+        document.getElementById('caseDesc').innerText = level.desc;
+        img.src = level.img;
+        document.getElementById('flagInput').value = "";
+
+        // Inject clues
+        const container = document.getElementById('markerContainer');
+        container.innerHTML = "";
+        level.clues.forEach((c, i) => {
+            const div = document.createElement('div');
+            div.className = 'clue-marker';
+            div.id = `clue-${i}`;
+            div.style.left = c.x + '%';
+            div.style.top = c.y + '%';
+            div.innerHTML = `<i class="fa-solid fa-microchip"></i>`;
+            div.onclick = () => revealClue(i, c.text);
+            container.appendChild(div);
+        });
+
+        updateProgress();
+        showNeuralAlert(`SECTOR_${level.id}_INIT: Deep scan authorized.`);
+    }
+
+    function revealClue(idx, text) {
+        if (foundClues.has(idx)) return;
+        foundClues.add(idx);
+        const marker = document.getElementById(`clue-${idx}`);
+        marker.classList.add('revealed');
+        marker.innerHTML = `<span style="font-size:8px; display:block;">${text}</span>`;
+
+        showNeuralAlert(`FRAGMENT_RECOVERED: [${text}]`);
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const dots = document.querySelectorAll('.prog-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i < foundClues.size);
+        });
+    }
+
+    wrapper.addEventListener('mousemove', (e) => {
+        lens.style.display = 'block';
+        const rect = wrapper.getBoundingClientRect();
+        let x = e.clientX - rect.left, y = e.clientY - rect.top;
+
+        // Limit lens within bounds
+        x = Math.max(0, Math.min(x, rect.width));
+        y = Math.max(0, Math.min(y, rect.height));
+
+        lens.style.left = (x - 90) + 'px';
+        lens.style.top = (y - 90) + 'px';
+
+        const zoom = 4;
+        lens.style.backgroundImage = `url(${img.src})`;
+        lens.style.backgroundSize = (img.width * zoom) + 'px ' + (img.height * zoom) + 'px';
+        lens.style.backgroundPosition = `-${x * zoom - 90}px -${y * zoom - 90}px`;
+
+        // Reveal markers underneath lens
+        document.querySelectorAll('.clue-marker').forEach(m => {
+            const mx = m.offsetLeft + 20;
+            const my = m.offsetTop + 20;
+            const dist = Math.sqrt((x - mx) ** 2 + (y - my) ** 2);
+            if (dist < 90) m.style.opacity = "0.7";
+            else if (!foundClues.has(parseInt(m.id.split('-')[1]))) m.style.opacity = "0";
+        });
+    });
+
+    wrapper.addEventListener('mouseleave', () => {
+        lens.style.display = 'none';
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+        const input = document.getElementById('flagInput').value.trim();
+        const level = LEVELS[currentLevelIndex];
+
+        if (input === level.flag) {
+            if (foundClues.size < 3) {
+                showNeuralAlert("INTEGRITY_CHECK_FAILED: Missing spectral fragments.", "error");
+                return;
+            }
+
+            showNeuralAlert("SPECTRAL_MATCH: Success. Flag ratified.");
+
+            setTimeout(() => {
+                if (currentLevelIndex < LEVELS.length - 1) {
+                    loadLevel(currentLevelIndex + 1);
+                } else {
+                    showNeuralAlert("MISSION_COMPLETE: All sectors recovered.");
+                    setTimeout(() => { window.location.href = "ctf.html"; }, 2000);
+                }
+            }, 1500);
+        } else {
+            showNeuralAlert("INVALID_DATA: Cipher mismatch.", "error");
+        }
+    });
+
+    loadLevel(0);
+</script>
+</body>
+
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recon Lab: Neural Breach | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        /* GOLDEN BREACH UI - CONSOLIDATED & FIXED */
+        :root {
+            --primary-amber: #ffaa00;
+            --accent-gold: #ffee00;
+            --terminal-bg: rgba(10, 8, 2, 0.98);
+            --dark-glow: rgba(255, 170, 0, 0.2);
+        }
+
+        .recon-container {
+            max-width: 1500px;
+            margin: 10px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 40px;
+            height: 82vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* SIDEBAR STYLING */
+        .recon-sidebar {
+            background: rgba(15, 10, 2, 0.95);
+            border: 2px solid var(--primary-amber);
+            border-radius: 12px;
+            padding: 30px;
+            overflow-y: auto;
+            box-shadow: 0 0 40px var(--dark-glow);
+            backdrop-filter: blur(25px);
+        }
+
+        .sidebar-header {
+            font-size: 13px;
+            color: var(--primary-amber);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 900;
+            text-shadow: 0 0 15px var(--primary-amber);
+        }
+
+        .dir-item {
+            padding: 18px 22px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            color: #b0a088;
+            margin-bottom: 12px;
+            background: rgba(255, 170, 0, 0.03);
+            border: 1px solid rgba(255, 170, 0, 0.05);
+        }
+
+        .dir-item:hover {
+            background: rgba(255, 170, 0, 0.12);
+            color: var(--accent-gold);
+            border-color: rgba(255, 170, 0, 0.4);
+            transform: translateX(10px);
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.1);
+        }
+
+        .dir-item.active {
+            background: rgba(255, 170, 0, 0.2);
+            color: #fff;
+            border-color: var(--primary-amber);
+            box-shadow: 0 0 25px var(--dark-glow);
+        }
+
+        /* TERMINAL WINDOW */
+        .terminal-window {
+            background: var(--terminal-bg);
+            border: 2px solid rgba(255, 200, 0, 0.5);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        .terminal-header {
+            background: linear-gradient(90deg, #2a1a00, #0d0d0d);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(255, 170, 0, 0.3);
+        }
+
+        .terminal-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-gold);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px var(--primary-amber);
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 45px;
+            overflow-y: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            line-height: 2;
+            color: var(--primary-amber);
+            background-image: radial-gradient(circle at center, rgba(255, 170, 0, 0.05) 0%, transparent 75%);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-amber) transparent;
+        }
+
+        .terminal-prompt::before {
+            content: "neural_operative@cyberforge:~$ ";
+            color: var(--accent-gold);
+            font-weight: 900;
+            text-shadow: 0 0 8px var(--primary-amber);
+        }
+
+        .submission-bar {
+            background: #0a0802;
+            padding: 35px 50px;
+            border-top: 3px solid rgba(255, 170, 0, 0.3);
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .flag-input {
+            flex: 1;
+            background: #000;
+            border: 2px solid rgba(255, 170, 0, 0.4);
+            padding: 18px 30px;
+            border-radius: 10px;
+            color: var(--accent-gold);
+            font-size: 18px;
+            outline: none;
+            box-shadow: inset 0 0 15px rgba(255, 170, 0, 0.1);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .flag-input:focus {
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-amber), var(--accent-gold));
+            color: #000;
+            padding: 18px 55px;
+            border-radius: 10px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            box-shadow: 0 0 30px var(--dark-glow);
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+        }
+
+        /* COMPONENTS */
+        .briefing-card {
+            background: rgba(255, 170, 0, 0.05);
+            border: 2px solid rgba(255, 170, 0, 0.2);
+            border-left: 6px solid var(--primary-amber);
+            padding: 25px 35px;
+            border-radius: 12px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .briefing-card h4 {
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+            text-shadow: 0 0 5px var(--primary-amber);
+        }
+
+        #challengeTitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 1000;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
+            margin-top: 10px;
+        }
+
+        .intel-bar-bg {
+            height: 10px;
+            background: rgba(255, 170, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 170, 0, 0.2);
+        }
+
+        .intel-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-amber), var(--accent-gold));
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px var(--primary-amber);
+        }
+
+        .back-btn-premium {
+            position: relative !important;
+            display: inline-flex;
+            margin-bottom: 20px;
+            top: 0 !important;
+            left: 0 !important;
+            border-color: var(--primary-amber) !important;
+            color: var(--primary-amber) !important;
+            background: rgba(255, 170, 0, 0.05);
+        }
+
+        .back-btn-premium:hover {
+            background: var(--primary-amber) !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px var(--primary-amber) !important;
+        }
+
+        /* NEURAL ALERT SYSTEM */
+        #neuralAlert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 8, 2, 0.95);
+            border: 2px solid var(--primary-amber);
+            border-left: 8px solid var(--primary-amber);
+            padding: 20px 40px;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            border-radius: 8px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--dark-glow);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.8;
+            }
+        }
+
+        .dir-item.active {
+            animation: pulse 2s infinite;
+        }
+
+        #analyzeOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 170, 0, 0.05);
+            pointer-events: none;
+            display: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+
+<body class="ctf-theme">
+    <!-- INTENSIFIED BRIGHT CANVAS -->
+    <div id="neuralAlert"></div>
+
+    <canvas id="ctfCanvas" style="opacity: 0.4; filter: blur(0.5px);"></canvas>
+
+    <div class="main-wrapper">
+        <div class="challenge-info">
+            <a href="ctf.html" class="back-btn-premium">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span>Mission Control</span>
+            </a>
+            <h2 id="challengeTitle">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo"
+                    style="display:inline-block; vertical-align:middle; margin-right:15px;">
+                RECON LAB: NEURAL BREACH
+            </h2>
+            <div class="briefing-card">
+                <h4>Tactical Mission Briefing</h4>
+                <p id="challengeDesc"
+                    style="color: #fff; font-size: 15px; text-shadow: 0 0 10px rgba(255,255,255,0.2);">Establish secure
+                    neural link to intercept fragmented intel packets...</p>
+            </div>
+        </div>
+
+        <section class="recon-container">
+            <div class="recon-sidebar">
+                <div class="sidebar-header">
+                    <i class="fa-solid fa-link"></i> Captured Data Streams
+                </div>
+                <div id="dirTree"></div>
+
+                <div id="intelTracker"
+                    style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <h5
+                        style="color: var(--primary-amber); font-size: 11px; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">
+                        Intel
+                        Recovered: <span id="intelCount" style="color: var(--accent-gold);">0 / 3</span></h5>
+                    <div class="intel-bar-bg">
+                        <div id="intelBar" class="intel-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal-window">
+                <div id="analyzeOverlay"></div>
+                <div class="terminal-header">
+                    <div class="terminal-title">CYBER_OPERATIVE_v9.2 // SECURITY: MAXIMUM</div>
+                    <div class="header-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="terminal-line terminal-prompt">initiating_neural_deepscan...</div>
+                    <div class="terminal-line" style="color: #ffbd2e; margin-top: 10px;">[NOTICE] Memory sector 0xBF is
+                        currently locked. Code correlation required.</div>
+                </div>
+                <div class="submission-bar">
+                    <input type="text" class="flag-input" id="flagInput"
+                        placeholder="Enter Reconstructed Flag (FLAG{...})">
+                    <button class="submit-btn" id="submitBtn">CAPTURE</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="state.js"></script>
+    <script src="auth-ui.js"></script>
+    <script>
+        // INTENSIFIED MATRIX BACKGROUND
+        const canvas = document.getElementById('ctfCanvas');
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize(); window.addEventListener('resize', resize);
+
+        const chars = '01ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝX-7';
+        const fontSize = 18;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 8, 2, 0.12)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = '900 ' + fontSize + 'px Space Mono';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+
+                // GOLDEN RAIN LOGIC
+                const isBright = Math.random() > 0.96;
+                ctx.fillStyle = isBright ? '#fff' : '#ffaa00';
+                ctx.shadowBlur = isBright ? 20 : 10;
+                ctx.shadowColor = '#ffee00';
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                ctx.shadowBlur = 0;
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 45);
+
+        // FINAL GOLDEN PARADOX LOGIC
+        const STAGE_COMPLEX = {
+            title: "Neural Breach: Operation Golden Paradox",
+            description: "An advanced persistent threat (APT) has encrypted the core system flag. You must recover three fragments from the neural net using mathematical correlation. Solve the logic gates to reconstruct the signature.",
+            assets: {
+                files: [
+                    {
+                        name: "log_access.dump",
+                        content: "TIMESTAMP | EVENT | SOURCE\n14:22:01 | LOGIN SUCCESS | 10.0.8.2\n14:23:44 | READ_REQ | /mnt/secret/F1\n[FRAGMENT_1]: FLAG{N3ur4l_\n\nERROR: Unexpected EOF in stream 0. Correlate node frequency to unlock fragment 2."
+                    },
+                    {
+                        name: "logic_puzzle.cfg",
+                        content: "// NEURAL GATE v3.0 [GOLDEN_EDITION]\n// To resolve Sector 0xBF (The Vault), calculate the 4-digit Sequence:\n// SEQUENCE = (45 * 45) + (13 * 5) - 34\n\n[HINT]: Compute the square first, then apply multi-threaded arithmetic."
+                    },
+                    {
+                        name: "RECON_VAULT [LOCKED]",
+                        content: "[VAULT_LOCKED]\nAccess key required for Sector 0xBF.\nHint: Solve the Sequence in 'logic_puzzle.cfg'."
+                    },
+                    {
+                        name: "connection_node.raw",
+                        content: "TCP SYNC | 192.168.1.55 | SUCCESS\n[GATE_LOCK]: (22 * 4) + (X / 2) = 140\n\n[DECRYPT_REQ]: Solve for X to extract the secondary fragment."
+                    }
+                ]
+            }
+        };
+
+        let currentChallenge = STAGE_COMPLEX;
+        let intelRecovered = 0;
+        let solvedVault = false;
+        let solvedCipher = false;
+
+        function init() {
+            renderChallenge(STAGE_COMPLEX);
+        }
+
+        function renderChallenge(ch) {
+            document.getElementById('challengeTitle').innerText = ch.title.toUpperCase();
+            document.getElementById('challengeDesc').innerText = ch.description;
+            const tree = document.getElementById('dirTree');
+            tree.innerHTML = ch.assets.files.map((f, i) => `
+                <div class="dir-item" id="item-${i}" onclick="viewFile(${i})">
+                    <i class="fa-solid ${getIcon(f.name)}" style="color: ${f.name.includes('LOCKED') ? '#ff4d4d' : 'var(--primary-amber)'}"></i>
+                    <span>${f.name}</span>
+                </div>
+            `).join('');
+            viewFile(0);
+        }
+
+        function getIcon(name) {
+            if (name.includes('locked')) return 'fa-lock';
+            if (name.includes('cfg')) return 'fa-gear';
+            if (name.includes('dump')) return 'fa-file-lines';
+            return 'fa-microchip';
+        }
+
+        function showNeuralAlert(msg, level = 'info') {
+            const alert = document.getElementById('neuralAlert');
+            alert.innerText = `>> ${msg.toUpperCase()}`;
+            alert.style.borderColor = level === 'error' ? '#ff4d4d' : 'var(--primary-amber)';
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 4000);
+        }
+
+        function viewFile(idx) {
+            const file = currentChallenge.assets.files[idx];
+            const body = document.getElementById('terminalBody');
+            document.querySelectorAll('.dir-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+
+            // Fragment 2 Puzzle (Algebra)
+            if (file.name === "connection_node.raw" && !solvedCipher) {
+                const xVal = prompt("NEURAL_GATE: Solve for X to unlock node segment: (22 * 4) + (X / 2) = 140");
+                if (xVal === "104") {
+                    solvedCipher = true;
+                    file.content = "CONNECTION NODE UNLOCKED.\n[FRAGMENT_2]: pr0c3ss0r_\n\nStatus: Manual override successful. Fragment 2 active.";
+                    updateIntel(1);
+                    showNeuralAlert("DECRYPTION_SUCCESS: Fragment 2 recovered.");
+                } else {
+                    body.innerHTML = `<div class="terminal-line" style="color: #ff4d4d; font-weight: bold;">[ERROR] Logic mismatch. Recalculate X for the equation.</div>`;
+                    return;
+                }
+            }
+
+            // Fragment 3 Puzzle (Multi-step Math)
+            if (file.name.includes("LOCKED") && !solvedVault) {
+                const code = prompt("VAULT CORE: Enter 4-Digit Access Sequence ( (45*45) + (13*5) - 34 ):");
+                if (code === "2056") {
+                    solvedVault = true;
+                    file.name = "RECON_VAULT [UNLOCKED]";
+                    file.content = "VAULT SECTOR 0xBF: Access Granted.\n[FRAGMENT_3]: _h34rt_2026}\n\n[NOTICE]: Final fragment recovered. Reconstruct the full hash.";
+                    document.getElementById(`item-${idx}`).innerHTML = `<i class="fa-solid fa-lock-open" style="color: #00ff41;"></i> <span>RECON_VAULT [UNLOCKED]</span>`;
+                    updateIntel(1);
+                    showNeuralAlert("ACCESS_GRANTED: Vault sector stabilized.");
+                } else {
+                    body.innerHTML = `<div class="terminal-line" style="color: #ff4d4d; font-weight: bold;">[ERROR] Sequence mismatch. Verify the math in logic_puzzle.cfg.</div>`;
+                    return;
+                }
+            }
+
+            body.innerHTML = `
+                <div class="terminal-line terminal-prompt">cat /neural_net/stream/${file.name}</div>
+                <div class="file-content" style="white-space: pre-wrap; margin-top: 15px; color: ${file.name.includes('FRAGMENT') ? 'var(--accent-gold)' : 'inherit'}">${file.content}</div>
+                <div style="margin-top:25px; border-top: 1px solid rgba(255,170,0,0.1); padding-top: 10px; color: #887a68; font-size: 11px;">
+                    /* Neural Link Status: Stable // Corruption: Low // Mode: GOLDEN_BREACH */
+                </div>
+            `;
+
+            if (file.content.includes("FRAGMENT_1") && !file.viewed1) { file.viewed1 = true; updateIntel(1); }
+            if (file.content.includes("FRAGMENT_2") && !file.viewed2) { file.viewed2 = true; updateIntel(1); }
+
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function updateIntel(inc) {
+            intelRecovered = Math.min(intelRecovered + inc, 3);
+            document.getElementById('intelCount').innerText = `${intelRecovered} / 3`;
+            document.getElementById('intelBar').style.width = (intelRecovered / 3 * 100) + '%';
+            if (intelRecovered === 3) {
+                const body = document.getElementById('terminalBody');
+                body.innerHTML += `<div class="terminal-line" style="color: var(--accent-gold); margin-top: 20px; font-weight: bold; text-shadow: 0 0 10px var(--primary-amber);">[SYNC] All fragments recovered. Sequence reconstruction ready.</div>`;
+            }
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const flag = document.getElementById('flagInput').value.trim();
+            const correctFlag = "FLAG{N3ur4l_pr0c3ss0r_h34rt_2026}";
+
+            if (flag === correctFlag) {
+                showNeuralAlert("SYSTEM_BREACH: Access signature ratified. SUCCESS.");
+                setTimeout(() => { window.location.href = "ctf.html"; }, 2000);
+            } else {
+                showNeuralAlert("MISMATCH_ERROR: Access signature invalid.", "error");
+            }
+        });
+
+        init();
+    </script>
+</body>
+
+</html>

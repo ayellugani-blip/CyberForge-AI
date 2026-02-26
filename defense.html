@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>System Defense | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="topic-detail.css">
+</head>
+
+<body class="beginner-theme">
+    <canvas id="starCanvas"></canvas>
+    <div class="main-wrapper">
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item active"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+                <li><a href="insights.html" class="nav-item"><i class="fa-solid fa-lightbulb nav-icon"></i><span
+                            class="nav-text">Insights</span></a></li>
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="back-btn-wrapper">
+            <a href="cybersecurity.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to
+                Cybersecurity</a>
+        </div>
+        <section class="topic-hero">
+            <div class="topic-hero-icon">🖥️</div>
+            <h1 class="topic-hero-title">System Defense</h1>
+            <p class="topic-hero-sub">Building an impenetrable fortress around your critical infrastructure.</p>
+        </section>
+        <section class="topic-content-wrapper">
+            <p class="topic-intro-para">System defense is more than just installing an antivirus. It is a multi-layered
+                approach to hardening every component of your infrastructure, from the OS kernel to the cloud management
+                console. It involves a "Defense-in-Depth" strategy where even if an attacker breaks through one layer,
+                they are met with another more difficult barrier.</p>
+            <div class="topic-sections-grid">
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🏗️</div>
+                    <h3>Infrastructure Hardening</h3>
+                    <p>A "default" installation of Windows or Linux is insecure. Hardening involves disabling unneeded
+                        ports, removing default accounts, and implementing standard benchmarks like CIS or NIST STIGs.
+                        By stripping away alles that isn't necessary for the system's function, you significantly reduce
+                        the "attack surface" available to an intruder.</p>
+                    <div class="card-tags"><span>CIS Benchmarks</span><span>Attack Surface Reduction</span><span>Least
+                            Privilege</span></div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🧱</div>
+                    <h3>Advanced Segmentation</h3>
+                    <p>Firewalls are only the perimeter. Advanced segmentation involves using Micro-segmentation to
+                        isolate individual cloud workloads or servers from each other. This prevents "Lateral
+                        Movement"—the process where an attacker who compromises one low-value system uses it as a
+                        jumping-off point to reach high-value data elsewhere on the network.</p>
+                    <div class="card-tags"><span>Micro-Segmentation</span><span>Lateral
+                            Movement</span><span>NGFWs</span></div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🩺</div>
+                    <h3>Vulnerability Management</h3>
+                    <p>Attacker's don't use 'magic'; they use known vulnerabilities (CVEs). A proactive system defense
+                        includes constant scanning for missing patches. Prioritizing updates for "Critical" and "High"
+                        severity vulnerabilities is the foundation of preventing systemic failure. Automated patching
+                        ensures that your window of exposure is as small as possible.</p>
+                    <div class="card-tags"><span>CVE Tracking</span><span>Patch Management</span><span>Vulnerability
+                            Scanning</span></div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🛡️</div>
+                    <h3>Data Loss Prevention (DLP)</h3>
+                    <p>The ultimate goal of defense is to keep data inside the organization. DLP systems monitor for
+                        sensitive information (like credit card numbers or source code) leaving the network. By using
+                        content-aware inspection, these systems can block an employee or an attacker from uploading your
+                        secrets to the public web.</p>
+                    <div class="card-tags"><span>DLP Enforcement</span><span>Data
+                            Classification</span><span>Exfiltration Defense</span></div>
+                </div>
+            </div>
+            <div class="topic-tips-block">
+                <h3><i class="fa-solid fa-bolt"></i> Defense-in-Depth Tips</h3>
+                <ul>
+                    <li><strong>Apply the Rule of Least Privilege:</strong> Give users only the minimum access they need
+                        to perform their job.</li>
+                    <li><strong>Patch Weekly:</strong> Maintain a strict schedule for OS and application updates.</li>
+                    <li><strong>Backup Immutably:</strong> Ensure your backups cannot be deleted or encrypted by
+                        ransomware hackers.</li>
+                    <li><strong>Isolate Legacy Systems:</strong> If you must run old software, put it on a isolated
+                        network with no internet access.</li>
+                </ul>
+            </div>
+            <div class="topic-tools-block">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Defense Tools</h3>
+                <div class="tools-chips">
+                    <span><i class="fa-solid fa-shield"></i> Palo Alto Networks</span>
+                    <span><i class="fa-solid fa-microchip"></i> VMware Carbon Black</span>
+                    <span><i class="fa-solid fa-server"></i> Tenable.io</span>
+                    <span><i class="fa-solid fa-box-archive"></i> Veeam Backup</span>
+                </div>
+            </div>
+            <div class="topic-download-section">
+                <div class="download-info">
+                    <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="download-text">
+                        <h3>System Defense & Hardening</h3>
+                        <p>CIS Benchmarks, Vulnerability Management, and DLP Guide (PDF).</p>
+                    </div>
+                </div>
+                <a href="pdfs/system-defense.pdf" class="download-btn" download>
+                    <i class="fa-solid fa-download"></i> Download PDF
+                </a>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+</body>
+
+</html>

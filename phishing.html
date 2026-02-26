@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Awareness Trainer | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="ctf.css">
+    <style>
+        .phishing-hero {
+            text-align: center;
+            padding: 150px 20px 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .phishing-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .phishing-definition {
+            background: rgba(10, 25, 47, 0.6);
+            border-left: 4px solid #3498db;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 50px;
+            text-align: left;
+            line-height: 1.8;
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+
+        .phishing-definition strong {
+            color: #3498db;
+        }
+
+        .simulation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .sim-card {
+            background: rgba(10, 25, 47, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sim-card:hover {
+            transform: translateY(-15px);
+            border-color: #3498db;
+            box-shadow: 0 25px 50px rgba(52, 152, 219, 0.2);
+        }
+
+        .sim-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            color: #3498db;
+            transition: 0.3s;
+        }
+
+        .sim-card:hover .sim-icon {
+            transform: scale(1.1);
+            text-shadow: 0 0 30px rgba(52, 152, 219, 0.5);
+        }
+
+        .sim-card h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .sim-card p {
+            color: #8892b0;
+            margin-bottom: 35px;
+            font-size: 1.05rem;
+        }
+
+        .sim-btn {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .sim-card:hover .sim-btn {
+            background: #3498db;
+            color: #fff;
+        }
+
+        /* CUSTOM THEMES PER CARD */
+        .email-card:hover {
+            border-color: #e74c3c;
+            box-shadow: 0 25px 50px rgba(231, 76, 60, 0.2);
+        }
+
+        .email-card .sim-icon {
+            color: #e74c3c;
+        }
+
+        .email-card .sim-btn {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .email-card .sim-btn:hover {
+            background: #e74c3c;
+        }
+
+        .social-card:hover {
+            border-color: #f1c40f;
+            box-shadow: 0 25px 50px rgba(241, 196, 15, 0.2);
+        }
+
+        .social-card .sim-icon {
+            color: #f1c40f;
+        }
+
+        .social-card .sim-btn {
+            border-color: #f1c40f;
+            color: #f1c40f;
+        }
+
+        .social-card .sim-btn:hover {
+            background: #f1c40f;
+        }
+
+        .sms-card:hover {
+            border-color: #2ecc71;
+            box-shadow: 0 25px 50px rgba(46, 204, 113, 0.2);
+        }
+
+        .sms-card .sim-icon {
+            color: #2ecc71;
+        }
+
+        .sms-card .sim-btn {
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+
+        .sms-card .sim-btn:hover {
+            background: #2ecc71;
+        }
+    </style>
+</head>
+
+<body class="ctf-theme theme-purple">
+    <canvas id="starCanvas"></canvas>
+
+    <nav class="main-nav">
+        <h1 class="logo glitch">
+            <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+            CyberForge AI
+        </h1>
+        <ul class="nav-links">
+            <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                        class="nav-text">Home</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- PREMIUM MISSION CONTROL BUTTON -->
+    <a href="cyber.html" class="back-btn-premium">
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>Main Intelligence</span>
+    </a>
+
+    <div class="phishing-hero">
+        <h1 class="phishing-title">Phishing Awareness Trainer</h1>
+        <div class="phishing-definition">
+            <p>
+                <strong>Phishing</strong> is a deceptive technique used by cybercriminals to trick individuals into
+                divulging sensitive information such as login credentials, credit card numbers, or proprietary data.
+            </p>
+            <p style="margin-top: 15px;">
+                In a real-world cybersecurity environment, recognizing the subtle indicators of a phishing attempt is
+                often the first and most critical line of defense. This trainer simulates high-fidelity adversarial
+                communications to sharpen your defensive intuition.
+            </p>
+        </div>
+    </div>
+
+    <section class="simulation-grid">
+        <!-- Mode 1: Email Phishing -->
+        <div class="sim-card email-card" onclick="location.href='phishing-email.html'">
+            <div class="sim-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h3>Email Phishing</h3>
+            <p>Analyze corporate communications, inspect spoofed headers, and detect malicious attachments in a
+                high-fidelity inbox.</p>
+            <button class="sim-btn">Start Simulation</button>
+        </div>
+
+        <!-- Mode 2: Social Media Phishing -->
+        <div class="sim-card social-card" onclick="location.href='phishing-image.html'">
+            <div class="sim-icon"><i class="fa-solid fa-share-nodes"></i></div>
+            <h3>Social Phishing</h3>
+            <p>Investigate suspicious profiles, detect impersonation, and spot fraudulent giveaways in a social media
+                environment.</p>
+            <button class="sim-btn">Start Simulation</button>
+        </div>
+
+        <!-- Mode 3: SMS Phishing -->
+        <div class="sim-card sms-card" onclick="location.href='phishing-sms.html'">
+            <div class="sim-icon"><i class="fa-solid fa-comment-sms"></i></div>
+            <h3>SMS / Smishing</h3>
+            <p>Examine mobile text messages, identify malicious shortlinks, and handle emergency package delivery scams.
+            </p>
+            <button class="sim-btn">Start Simulation</button>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="state.js"></script>
+    <script src="auth-ui.js"></script>
+    <script src="cyber.js"></script>
+</body>
+
+</html>

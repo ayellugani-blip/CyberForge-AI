@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adversarial AI Defense | CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Master the techniques to protect AI models from prompt injection, poisoning, and extraction attacks.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+    <link rel="stylesheet" href="topic-detail.css">
+</head>
+
+<body class="intermediate-theme">
+    <canvas id="starCanvas"></canvas>
+    <div class="main-wrapper">
+        <!-- NAVBAR -->
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item active"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="back-btn-wrapper">
+            <a href="AI.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to AI Security
+            </a>
+        </div>
+        <!-- HERO -->
+        <section class="topic-hero">
+            <div class="topic-hero-icon">🛡️</div>
+            <h1 class="topic-hero-title">Adversarial AI Defense</h1>
+            <p class="topic-hero-sub">Shielding the brain of the machine from intelligent exploitation</p>
+        </section>
+        <!-- INTRO -->
+        <section class="topic-content-wrapper">
+            <p class="topic-intro-para"
+                style="color: #eee; font-size: 1.1rem; max-width: 900px; margin: 0 auto 50px; line-height: 1.8; text-align: center;">
+                As AI becomes the backbone of security, it also becomes a target. <strong>Adversarial AI</strong> refers
+                to techniques that attempt to fool machine learning models by providing them with deceptive input.
+                Defending against these attacks requires robust model training, sanitization of inputs, and constant
+                monitoring for model manipulation.
+            </p>
+            <!-- SECTION CARDS -->
+            <div class="topic-sections-grid">
+                <div class="topic-section-card">
+                    <div class="card-top-icon">💉</div>
+                    <h3>Prompt Injection Defense</h3>
+                    <p>Prevent attackers from bypassing LLM constraints through crafted prompts. Implement robust
+                        system-level instructions, output filtering, and contextual sandboxing to ensure the AI remains
+                        within its intended operational bounds.</p>
+                    <div class="card-tags">
+                        <span>LLM Security</span><span>Input Sanitization</span><span>Sandboxing</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🧪</div>
+                    <h3>Model Poisoning Protection</h3>
+                    <p>Training data can be "poisoned" to introduce backdoors into a model. Ensure the integrity of
+                        training pipelines through rigorous data provenance, outlier detection in training sets, and
+                        federated learning with secure aggregation.</p>
+                    <div class="card-tags">
+                        <span>Data Integrity</span><span>Pipeline Security</span><span>Backdoor Detection</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🏗️</div>
+                    <h3>Model Inversion & Extraction</h3>
+                    <p>Attackers may attempt to "reverse engineer" a model or extract sensitive training data. Use
+                        differential privacy, rate limiting on API calls, and model watermarking to protect intellectual
+                        property and training data privacy.</p>
+                    <div class="card-tags">
+                        <span>Differential Privacy</span><span>Model Watermarking</span><span>Anti-Extraction</span>
+                    </div>
+                </div>
+                <div class="topic-section-card">
+                    <div class="card-top-icon">🛡️</div>
+                    <h3>Adversarial Training</h3>
+                    <p>Intentionally expose models to adversarial examples during the training phase. This process,
+                        known as adversarial hardening, makes the model significantly more resilient to subtle
+                        perturbations designed to trigger incorrect classifications.</p>
+                    <div class="card-tags">
+                        <span>Hardening</span><span>Robustness</span><span>Min-Max Optimization</span>
+                    </div>
+                </div>
+            </div>
+            <!-- TIPS BLOCK -->
+            <div class="topic-tips-block">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Defense Tips</h3>
+                <ul>
+                    <li>Never trust raw user input in AI prompts; treat it as untrusted data that must be sanitized.
+                    </li>
+                    <li>Monitor for "drift" in model confidence scores, which often precedes successful adversarial
+                        exploitation.</li>
+                    <li>Regularly audit your AI supply chain — from 3rd-party models to training datasets.</li>
+                    <li>Implement multi-layered defense; don't rely on model robustness alone.</li>
+                </ul>
+            </div>
+            <!-- TOOLS -->
+            <div class="topic-tools-block">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Key Defense Tools</h3>
+                <div class="tools-chips">
+                    <span><i class="fa-solid fa-shield-virus"></i> Adversarial Robustness Toolbox (ART)</span>
+                    <span><i class="fa-solid fa-lock"></i> Microsoft Counterfit</span>
+                    <span><i class="fa-solid fa-vial"></i> Giskard AI</span>
+                    <span><i class="fa-solid fa-diagram-project"></i> MITRE ATLAS Framework</span>
+                </div>
+            </div>
+            <div class="topic-download-section">
+                <div class="download-info">
+                    <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="download-text">
+                        <h3>Adversarial AI Defense Guide</h3>
+                        <p>Download the complete study module in PDF format for offline learning.</p>
+                    </div>
+                </div>
+                <a href="pdfs/adversarial-ai.pdf" class="download-btn" download>
+                    <i class="fa-solid fa-download"></i> Download PDF
+                </a>
+            </div>
+            <!-- Dynamic Study Module (Loaded from Database) -->
+            <div id="studyModuleContainer"></div>
+        </section>
+    </div>
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+
+    <script src="study-module.js"></script>
+    <script>
+        loadStudyModule("adversarial_ai");
+    </script>
+
+</body>
+
+</html>

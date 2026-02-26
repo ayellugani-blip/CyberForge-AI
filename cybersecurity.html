@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CyberForge AI - Cybersecurity</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="cyber.css">
+</head>
+
+<body>
+    <canvas id="starCanvas"></canvas>
+
+    <div class="main-wrapper">
+        <!-- NAVBAR -->
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item active"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+                <li><a href="insights.html" class="nav-item"><i class="fa-solid fa-lightbulb nav-icon"></i><span
+                            class="nav-text">Insights</span></a></li>
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero">
+            <h2>Cybersecurity Fundamentals</h2>
+            <p>Understanding threats. Preventing attacks. Protecting systems.</p>
+            <div class="cyber-intro-box">
+                <p>Cybersecurity is the practice of defending computers, servers, mobile devices, networks, and data
+                    from malicious attacks. In a connected world, every user becomes both a potential target and a
+                    potential defender.</p>
+                <p>By learning cybersecurity concepts, you develop the ability to identify risks, understand attacker
+                    behavior, and protect digital assets effectively.</p>
+                <div class="intro-tags">
+                    <a href="identity.html" class="intro-tag-link">🛡️ Identity Protection</a>
+                    <a href="threat.html" class="intro-tag-link">🔍 Threat Detection</a>
+                    <a href="communication.html" class="intro-tag-link" style="padding: 9px 15px;">🔒 Secure
+                        Communication</a>
+                    <a href="defense.html" class="intro-tag-link">🖥️ System Defense</a>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- LEARNING PATH (NOW INSIDE main-wrapper) -->
+        <div class="learning-path">
+            <h2 class="path-title">Choose Your Learning Path</h2>
+
+            <!-- BEGINNER -->
+            <div class="level-card">
+                <div class="level-header" onclick="toggleLevel('beginnerTopics')">
+                    <div class="level-text">
+                        <h3>Beginner</h3>
+                        <span>Fundamentals & Basics</span>
+                    </div>
+                    <div class="level-arrow">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div id="beginnerTopics" class="topics-wrapper">
+                    <div class="topic-item" onclick="openTopic('intro')">Introduction to Cybersecurity</div>
+                    <div class="topic-item" onclick="openTopic('password')">Password & Authentication</div>
+                    <div class="topic-item" onclick="openTopic('phishing')">Phishing & Social Engineering</div>
+                    <div class="topic-item" onclick="openTopic('malware')">Malware Awareness</div>
+                </div>
+            </div>
+
+            <!-- INTERMEDIATE -->
+            <div class="level-card">
+                <div class="level-header" onclick="toggleLevel('intermediateTopics')">
+                    <div class="level-text">
+                        <h3>Intermediate</h3>
+                        <span>Technical Understanding</span>
+                    </div>
+                    <div class="level-arrow">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div id="intermediateTopics" class="topics-wrapper">
+                    <div class="topic-item" onclick="openTopic('networking', 'intermediate')">Networking Fundamentals
+                    </div>
+                    <div class="topic-item" onclick="openTopic('web', 'intermediate')">How the Web Works</div>
+                    <div class="topic-item" onclick="openTopic('vulnerabilities', 'intermediate')">Common Web
+                        Vulnerabilities</div>
+                    <div class="topic-item" onclick="openTopic('ossecurity', 'intermediate')">Operating System Security
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFESSIONAL -->
+            <div class="level-card">
+                <div class="level-header" onclick="toggleLevel('professionalTopics')">
+                    <div class="level-text">
+                        <h3>Professional</h3>
+                        <span>Offensive Security & Exploitation</span>
+                    </div>
+                    <div class="level-arrow">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div id="professionalTopics" class="topics-wrapper">
+                    <div class="topic-item" onclick="openTopic('pentesting', 'professional')">Penetration Testing</div>
+                    <div class="topic-item" onclick="openTopic('privilege', 'professional')">Privilege Escalation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+    <script>
+        const topicData = {
+            identity: {
+                icon: '🛡️',
+                title: 'Identity Protection',
+                intro: 'Identity protection is the practice of safeguarding personal and organizational credentials, accounts, and digital identities from unauthorized access, theft, or misuse. In today\'s cyber landscape, compromised identities are the #1 attack vector used by threat actors worldwide.',
+                sections: [
+                    {
+                        heading: '🔑 Strong Password Practices',
+                        body: 'Use passwords of at least 16 characters combining uppercase, lowercase, numbers and symbols. Never reuse passwords across accounts. Use a password manager like Bitwarden or 1Password to generate and store unique credentials securely.'
+                    },
+                    {
+                        heading: '📲 Multi-Factor Authentication (MFA)',
+                        body: 'MFA adds a second layer of verification beyond just a password — such as a one-time code (TOTP), hardware token (YubiKey), biometric, or push notification. Even if a password is stolen, MFA prevents unauthorized login. Always prefer Authenticator apps over SMS.'
+                    },
+                    {
+                        heading: '🕵️ Phishing & Credential Theft',
+                        body: 'Attackers use phishing emails, fake login pages (credential harvesting), and social engineering to steal credentials. Always verify the sender\'s email domain, hover over links before clicking, and use anti-phishing browser extensions. Report suspicious emails immediately.'
+                    },
+                    {
+                        heading: '🧬 Biometric & Passwordless Login',
+                        body: 'Modern identity protection embraces passwordless authentication using FIDO2 keys, Windows Hello, or passkeys. These methods tie authentication to physical presence and cryptographic keys, making remote credential attacks nearly impossible.'
+                    },
+                    {
+                        heading: '💀 Dark Web Monitoring',
+                        body: 'Use services like HaveIBeenPwned.com or identity monitoring tools to check if your credentials appear in data breaches. If they do, change passwords immediately and enable MFA on affected accounts.'
+                    },
+                    {
+                        heading: '🏢 Privileged Access Management (PAM)',
+                        body: 'Organizations must implement PAM to control and audit access to critical systems. Principle of Least Privilege (PoLP) ensures users only access what they absolutely need — reducing the blast radius when an identity is compromised.'
+                    }
+                ],
+                tips: ['Never share your OTP or password over phone/email — legitimate services never ask.', 'Use separate email addresses for banking, social media, and shopping.', 'Enable login alerts on all major accounts so you\'re notified of suspicious logins.', 'Freeze your credit if you suspect identity theft — it\'s free and effective.'],
+                tools: ['Bitwarden (Password Manager)', 'Authy / Google Authenticator (MFA)', 'HaveIBeenPwned.com (Breach Checker)', 'YubiKey (Hardware Token)', 'Microsoft Entra ID (Enterprise IAM)']
+            },
+            threat: {
+                icon: '🔍',
+                title: 'Threat Detection',
+                intro: 'Threat detection is the process of identifying malicious activities, anomalies, and intrusions within a network or system in real time. Effective detection reduces attacker dwell time — the average attacker lurks undetected for over 200 days before discovery.',
+                sections: [
+                    {
+                        heading: '📊 Security Information & Event Management (SIEM)',
+                        body: 'SIEM platforms like Splunk, Microsoft Sentinel, and IBM QRadar aggregate and analyze logs from across the entire environment. They use correlation rules and AI-driven analytics to surface suspicious patterns that individual tools miss.'
+                    },
+                    {
+                        heading: '🌐 Network Traffic Analysis (NTA)',
+                        body: 'NTA tools like Zeek, Wireshark, and Darktrace monitor packet-level network activity. They detect command-and-control (C2) beaconing, lateral movement, data exfiltration, and port scanning by comparing traffic against known baselines.'
+                    },
+                    {
+                        heading: '🔬 Intrusion Detection Systems (IDS)',
+                        body: 'IDS tools (Snort, Suricata) monitor network or host activity for known attack signatures (signature-based) or anomalous deviations (anomaly-based). IPS (Intrusion Prevention Systems) take it further by automatically blocking detected threats.'
+                    },
+                    {
+                        heading: '🧠 AI & Behavioral Analytics (UEBA)',
+                        body: 'User and Entity Behavior Analytics (UEBA) uses machine learning to establish a behavioral baseline for each user and device, then fires alerts when behavior deviates — such as a user suddenly accessing sensitive files at 3 AM from an unusual location.'
+                    },
+                    {
+                        heading: '📡 Threat Intelligence Feeds',
+                        body: 'Threat intelligence (MISP, VirusTotal, AlienVault OTX) provides curated feeds of known malicious IPs, domains, file hashes, and attack patterns. Ingesting these into your security stack enables proactive blocking before attacks materialize.'
+                    },
+                    {
+                        heading: '🏹 Indicators of Compromise (IOCs)',
+                        body: 'IOCs are forensic artifacts — malicious IPs, domain names, file hashes, registry keys — that indicate a breach may have occurred. Hunting for IOCs proactively allows security teams to detect threats that automated systems miss.'
+                    }
+                ],
+                tips: ['Log everything — storage is cheap, breach recovery is not.', 'Set alert thresholds carefully — too many false positives causes alert fatigue and missed real threats.', 'Practice threat hunting: don\'t just wait for alerts, actively search for evil in your environment.', 'Test your detection with purple team exercises — attackers should trigger alerts you can verify.'],
+                tools: ['Splunk / Microsoft Sentinel (SIEM)', 'Wireshark / Zeek (Network Analysis)', 'Suricata / Snort (IDS/IPS)', 'VirusTotal (IOC Lookup)', 'MITRE ATT&CK Framework (TTPs)']
+            },
+            communication: {
+                icon: '🔒',
+                title: 'Secure Communication',
+                intro: 'Secure communication ensures that data transmitted between parties remains confidential, intact, and authenticated against eavesdropping, tampering, and man-in-the-middle attacks. Cryptography is the backbone of all secure digital communication.',
+                sections: [
+                    {
+                        heading: '🔐 End-to-End Encryption (E2EE)',
+                        body: 'E2EE ensures only the sender and intended recipient can read a message — not even the service provider. Apps like Signal, ProtonMail, and WhatsApp (for personal chats) implement E2EE using the Signal Protocol or similar asymmetric cryptographic schemes.'
+                    },
+                    {
+                        heading: '🌍 TLS / HTTPS',
+                        body: 'Transport Layer Security (TLS) encrypts data in transit between browsers and web servers. The padlock icon in your browser confirms TLS is active. Organizations must enforce HTTPS everywhere and use modern TLS 1.3, disabling legacy versions (SSLv3, TLS 1.0) to prevent downgrade attacks.'
+                    },
+                    {
+                        heading: '🗝️ Public Key Infrastructure (PKI)',
+                        body: 'PKI uses asymmetric cryptography — a public key for encryption and a private key for decryption. Digital certificates issued by trusted Certificate Authorities (CAs) bind identities to public keys, enabling authentication across the internet (SSL certs, code signing, email signing).'
+                    },
+                    {
+                        heading: '📧 Email Security (PGP / S/MIME)',
+                        body: 'PGP (Pretty Good Privacy) and S/MIME provide cryptographic signing and encryption for emails — ensuring authenticity and confidentiality. Organizations should also deploy DMARC, DKIM, and SPF DNS records to prevent email spoofing and domain impersonation.'
+                    },
+                    {
+                        heading: '🛡️ VPN & Zero Trust Network Access',
+                        body: 'VPNs encrypt all traffic between a device and a network over the internet, protecting remote workers from interception. Zero Trust Network Access (ZTNA) goes further — continuously verifying identity and device health before granting access to specific resources, not the entire network.'
+                    },
+                    {
+                        heading: '💬 Secure Messaging Protocols',
+                        body: 'Modern secure chat protocols like Matrix (Element), XMPP+OMEMO, and the Signal Protocol use forward secrecy — meaning that even if a long-term key is compromised, past sessions cannot be decrypted. This is critical for high-value communications.'
+                    }
+                ],
+                tips: ['Only share sensitive information through encrypted channels — never plain HTTP or unencrypted email.', 'Verify certificate fingerprints for high-security communications to prevent MITM attacks.', 'Use Signal for sensitive personal conversations — it is the gold standard for E2EE messaging.', 'Rotate encryption keys periodically and revoke certificates of departing employees promptly.'],
+                tools: ['Signal / ProtonMail (E2EE Messaging)', 'Wireshark (Traffic Inspection)', 'OpenSSL (Cryptographic Toolkit)', 'Let\'s Encrypt (Free TLS Certs)', 'Cloudflare / DNSSEC (DNS Security)']
+            },
+            defense: {
+                icon: '🖥️',
+                title: 'System Defense',
+                intro: 'System defense is the comprehensive hardening and protection of operating systems, applications, and infrastructure against exploitation. Defenders must think like attackers — understanding vulnerabilities before adversaries can exploit them.',
+                sections: [
+                    {
+                        heading: '🔧 OS Hardening',
+                        body: 'Hardening means reducing the attack surface of an operating system by disabling unnecessary services, applying CIS Benchmarks, removing unused software, enforcing strict permissions, and enabling security features like AppArmor (Linux) or Windows Defender Credential Guard.'
+                    },
+                    {
+                        heading: '🩹 Patch Management',
+                        body: 'Unpatched vulnerabilities are the most exploited attack vector. Implement automated patch management (WSUS, Ansible, SCCM) to ensure critical patches are applied within 24-72 hours of release. Track CVEs and subscribe to vendor security advisories for zero-day awareness.'
+                    },
+                    {
+                        heading: '🦠 Endpoint Detection & Response (EDR)',
+                        body: 'EDR tools like CrowdStrike Falcon, SentinelOne, and Microsoft Defender for Endpoint provide real-time monitoring, behavioral detection, and automated response on endpoints. They detect fileless malware, living-off-the-land (LotL) techniques, and supply chain attacks that traditional antivirus misses.'
+                    },
+                    {
+                        heading: '🧱 Firewall & Network Segmentation',
+                        body: 'Next-generation firewalls (NGFWs) inspect traffic at the application layer, not just ports/protocols. Segment your network into zones (DMZ, OT, user LAN) using VLANs and enforce strict inter-zone policies. Micro-segmentation further limits lateral movement after a breach.'
+                    },
+                    {
+                        heading: '💾 Backup & Disaster Recovery',
+                        body: 'Follow the 3-2-1 backup rule: 3 copies, 2 different media types, 1 offsite. Test backups regularly with restore drills. Immutable backups (write-once storage) are critical against ransomware that targets and destroys backup systems. Define RTO and RPO metrics for each critical system.'
+                    },
+                    {
+                        heading: '🔒 Zero Trust Architecture',
+                        body: 'Zero Trust replaces the obsolete "trust but verify" castle-and-moat model with "never trust, always verify." Every access request is authenticated, authorized, and continuously validated regardless of network location — using identity, device health, and behavioral signals.'
+                    }
+                ],
+                tips: ['Never run as administrator for daily tasks — use a standard account and elevate only when needed.', 'Disable SMBv1 and other legacy protocols that are routinely exploited (EternalBlue, WannaCry).', 'Enable full-disk encryption (BitLocker/FileVault) on all endpoints — especially laptops.', 'Conduct regular penetration tests and red team exercises to discover gaps before attackers do.'],
+                tools: ['CrowdStrike / SentinelOne (EDR)', 'Nessus / OpenVAS (Vulnerability Scanner)', 'pfSense / Palo Alto (Firewall)', 'Ansible / Puppet (Config Management)', 'Veeam / Acronis (Backup Solutions)']
+            }
+        };
+
+        function showTopic(key) {
+            const data = topicData[key];
+            const panel = document.getElementById('topicDetail');
+            const currentActive = document.querySelector('.intro-tags span.active-tag');
+
+            // Toggle off if same tag
+            if (currentActive && currentActive.dataset.topic === key) {
+                closeTopic();
+                return;
+            }
+
+            // Update active state
+            document.querySelectorAll('.intro-tags span').forEach(s => s.classList.remove('active-tag'));
+            document.querySelector(`.intro-tags span[data-topic="${key}"]`).classList.add('active-tag');
+
+            // Fill content
+            document.getElementById('topicIcon').textContent = data.icon;
+            document.getElementById('topicTitle').textContent = data.title;
+            document.getElementById('topicIntro').textContent = data.intro;
+
+            // Sections
+            const sectionsEl = document.getElementById('topicSections');
+            sectionsEl.innerHTML = data.sections.map(s => `
+            <div class="topic-section-card">
+                <h4>${s.heading}</h4>
+                <p>${s.body}</p>
+            </div>
+        `).join('');
+
+            // Tips
+            const tipsEl = document.getElementById('topicTips');
+            tipsEl.innerHTML = `<h4>⚡ Quick Defensive Tips</h4><ul>${data.tips.map(t => `<li>${t}</li>`).join('')}</ul>`;
+
+            // Tools
+            const toolsEl = document.getElementById('topicTools');
+            toolsEl.innerHTML = `<h4>🛠️ Key Tools & Technologies</h4><div class="tools-chips">${data.tools.map(t => `<span>${t}</span>`).join('')}</div>`;
+
+            // Show panel
+            panel.style.display = 'block';
+            requestAnimationFrame(() => panel.classList.add('panel-visible'));
+
+            // Smooth scroll to panel
+            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+
+        function closeTopic() {
+            const panel = document.getElementById('topicDetail');
+            document.querySelectorAll('.intro-tags span').forEach(s => s.classList.remove('active-tag'));
+            panel.classList.remove('panel-visible');
+            setTimeout(() => panel.style.display = 'none', 400);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,216 @@
+/* CTF GLOBAL THEME */
+body.ctf-theme {
+    background: #02060d;
+    color: #e0e0e0;
+    overflow-x: hidden;
+}
+
+.ctf-hero {
+    text-align: center;
+    padding: 100px 20px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.ctf-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.ctf-title .accent {
+    color: #a252ff;
+    text-shadow: 0 0 20px rgba(162, 82, 255, 0.4);
+}
+
+.ctf-intro {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #8892b0;
+}
+
+/* MODES GRID */
+.ctf-modes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.mode-card {
+    background: rgba(10, 25, 47, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(162, 82, 255, 0.1), transparent);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.mode-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(162, 82, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.mode-card:hover::before {
+    opacity: 1;
+}
+
+.mode-icon {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    color: #a252ff;
+    transition: 0.3s;
+}
+
+.mode-card:hover .mode-icon {
+    transform: scale(1.1);
+    color: #fff;
+    text-shadow: 0 0 20px rgba(162, 82, 255, 0.8);
+}
+
+.mode-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.mode-card p {
+    color: #8892b0;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.mode-btn {
+    background: rgba(162, 82, 255, 0.1);
+    border: 1px solid #a252ff;
+    color: #a252ff;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mode-card:hover .mode-btn {
+    background: #a252ff;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(162, 82, 255, 0.4);
+}
+
+/* SPECIFIC CARD STYLES */
+.recon-card {
+    border-bottom: 4px solid #ffcc0022;
+}
+
+.recon-card:hover {
+    border-bottom-color: #ffcc00;
+}
+
+.attack-card {
+    border-bottom: 4px solid #ff4d4d22;
+}
+
+.attack-card:hover {
+    border-bottom-color: #ff4d4d;
+}
+
+.stego-card {
+    border-bottom: 4px solid #bdc3c722;
+}
+
+.stego-card:hover {
+    border-bottom-color: #bdc3c7;
+}
+
+/* TERMINAL SCANLINE EFFECT */
+body::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+    z-index: 9999;
+    background-size: 100% 8px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.25;
+    /* More visible scanlines */
+}
+
+/* Background Matrix Canvas */
+#ctfCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.25;
+    /* Brighter animation */
+    filter: blur(1px);
+}
+
+/* MISSION CONTROL BUTTON - PREMIUM UPGRADE */
+.back-btn-premium {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    background: rgba(162, 82, 255, 0.15);
+    border: 1px solid rgba(162, 82, 255, 0.5);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(162, 82, 255, 0.2);
+}
+
+.back-btn-premium:hover {
+    background: #a252ff;
+    border-color: #fff;
+    transform: scale(1.05) translateX(5px);
+    box-shadow: 0 0 30px rgba(162, 82, 255, 0.6);
+}
+
+.back-btn-premium i {
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.back-btn-premium:hover i {
+    transform: translateX(-3px);
+}

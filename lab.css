@@ -1,0 +1,81 @@
+.lab-dashboard {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 40px;
+}
+
+.lab-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.lab-header h1 {
+    font-size: 40px;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.lab-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+}
+
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.lab-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(127, 0, 255, 0.2);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.lab-card:hover {
+    background: rgba(127, 0, 255, 0.08);
+    border-color: rgba(127, 0, 255, 0.5);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.lab-icon {
+    font-size: 50px;
+    color: #7f00ff;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 0 10px rgba(127, 0, 255, 0.4));
+}
+
+.lab-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.lab-card p {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.lab-card .cta {
+    display: inline-block;
+    padding: 12px 35px;
+    background: #7f00ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.lab-card .cta:hover {
+    background: #9d33ff;
+    box-shadow: 0 0 20px rgba(127, 0, 255, 0.5);
+}
