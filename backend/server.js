@@ -60,15 +60,17 @@ const { syncLiveNews } = require("./services/newsService");
 
 async function startServer() {
     try {
-        await mongoose.connect("mongodb://127.0.0.1:27017/cyberforge");
+        const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/cyberforge";
+        await mongoose.connect(mongoURI);
 
         console.log("✅ MongoDB Connected");
 
         // Sync Live News Intelligence
         await syncLiveNews();
 
-        app.listen(4000, () => {
-            console.log("🚀 Server running on http://localhost:4000");
+        const PORT = process.env.PORT || 4000;
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
         });
 
     } catch (err) {
