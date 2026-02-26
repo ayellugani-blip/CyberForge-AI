@@ -1,4 +1,4 @@
-const API = "http://localhost:4000";
+const API = window.API_BASE_URL || "http://localhost:4000";
 
 async function loadStudyModule(topicId) {
 
