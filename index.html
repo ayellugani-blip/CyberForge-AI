@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CyberForge AI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cyber.css">
+</head>
+
+<body>
+    <!-- Boot Screen -->
+    <div id="bootScreen">
+        <div class="terminal">
+            <p id="bootText"></p>
+        </div>
+    </div>
+
+    <!-- Background Canvas -->
+    <canvas id="starCanvas"></canvas>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <nav class="main-nav">
+            <h1 class="logo glitch">
+                <img src="logo.png" alt="CyberForge Logo" class="nav-logo">
+                CyberForge AI
+            </h1>
+            <ul class="nav-links">
+                <li><a href="cyber.html" class="nav-item active"><i class="fa-solid fa-house nav-icon"></i><span
+                            class="nav-text">Home</span></a></li>
+                <li><a href="cybersecurity.html" class="nav-item"><i
+                            class="fa-solid fa-shield-halved nav-icon"></i><span
+                            class="nav-text">Cybersecurity</span></a></li>
+                <li><a href="AI.html" class="nav-item"><i class="fa-solid fa-robot nav-icon"></i><span
+                            class="nav-text">Cyber + AI</span></a></li>
+                <li><a href="insights.html" class="nav-item"><i class="fa-solid fa-lightbulb nav-icon"></i><span
+                            class="nav-text">Insights</span></a></li>
+
+                <li id="joinNavItem">
+                    <a href="login.html" class="nav-item">
+                        <i class="fa-solid fa-user-plus nav-icon"></i>
+                        <span class="nav-text">Join</span>
+                    </a>
+                </li>
+
+                <li id="profileNavItem" style="display:none; position:relative;">
+                    <a href="#" class="nav-item" id="profileBtn">
+                        <i class="fa-solid fa-user nav-icon"></i>
+                    </a>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <p id="welcomeUser"></p>
+                        <button onclick="logoutUser()">Logout</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <h2>Cybersecurity Command Center</h2>
+            <div class="ai-hologram">
+                <div class="ai-core-text">
+                    <span id="coreWord">Train</span>
+                </div>
+            </div>
+            <center><button class="cta guest-only" id="joinbtn" onclick="openLoginPage()">Join / Reg</button></center>
+        </section>
+
+        <!-- REWORKED: Cyber Laws & Ethics Intro -->
+        <section class="path-intro-grid reveal" style="padding-top: 80px; grid-template-columns: 1fr;">
+            <div class="intro-card insight-intro" onclick="window.location.href='insights.html'">
+                <div class="intro-icon-box">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="intro-content">
+                    <h2>Cyber Laws & Ethics</h2>
+                    <div class="insight-visual-blocks">
+                        <div class="mini-visual-block"><i class="fa-solid fa-money-bill-trend-up"></i> $4.45M Average
+                            Breach Cost</div>
+                        <div class="mini-visual-block"><i class="fa-solid fa-users-viewfinder"></i> Human Impact Tracker
+                        </div>
+                        <div class="mini-visual-block"><i class="fa-solid fa-balance-scale"></i> Ethical AI Oversight
+                        </div>
+                        <div class="mini-visual-block"><i class="fa-solid fa-fingerprint"></i> Digital Footprint Audit
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px; color: rgba(255,255,255,0.6); font-size: 0.95rem;">Enter the Knowledge
+                        Hub to explore real-world consequences and responsible high-tech citizenship.</p>
+                    <a href="insights.html" class="intro-btn btn-ai" style="margin-top: 15px;">EXPLORE KNOWLEDGE HUB</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Path Titles -->
+        <section class="reveal" style="text-align: center; padding-top: 40px;">
+            <h2 class="training-title" style="margin-bottom: 5px;">Primary Learning Paths</h2>
+            <p style="opacity: 0.6; font-size: 1.1rem;">Select your specialization to begin the journey.</p>
+        </section>
+
+        <!-- Existing Learning Path Intros -->
+        <section class="path-intro-grid reveal">
+            <div class="intro-card" onclick="window.location.href='cybersecurity.html'">
+                <div class="intro-icon-box">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2>Cybersecurity Foundation</h2>
+                <p>Master the essentials of digital defense. Learn to protect identities, detect
+                    threats, and secure systems through hands-on tactical simulations.</p>
+                <a href="cybersecurity.html" class="intro-btn btn-ai">ENTER CYBERSECURITY</a>
+            </div>
+
+            <div class="intro-card" onclick="window.location.href='AI.html'">
+                <div class="intro-icon-box">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <h2>Advanced Cyber AI</h2>
+                <p>Enter the future of security. Harness artificial intelligence to automate
+                    threat hunting, analyze behavior, and defend against AI-driven attacks.</p>
+                <a href="AI.html" class="intro-btn btn-ai">ENTER CYBER AI</a>
+            </div>
+        </section>
+
+        <!-- [NEW] Trending News Section -->
+        <section class="news-section reveal">
+            <div class="news-header">
+                <h2 class="training-title">Latest Cybersecurity Developments</h2>
+                <p class="training-desc" style="margin-bottom: 30px;">Real-world security events happening right now</p>
+            </div>
+
+            <div id="newsGrid" class="intelligence-panel">
+                <!-- Ranked intelligence entries will be injected via JS -->
+            </div>
+        </section>
+
+        <section class="training-section reveal">
+
+            <h2 class="training-title">Hands-On Cybersecurity Training</h2>
+            <p class="training-desc">
+                Practice real-world security skills through interactive simulations.
+                Learn by attacking, defending, and analyzing threats just like professionals.
+            </p>
+
+            <div class="training-grid">
+                <a href="ctf.html" class="training-card ctf-card">
+                    <i class="fa-solid fa-flag card-icon"></i>
+                    <span class="card-text">Capture The Flag</span>
+                </a>
+
+                <a href="virtual-labs.html" class="training-card lab-card">
+                    <i class="fa-solid fa-flask card-icon"></i>
+                    <span class="card-text">Virtual Lab</span>
+                </a>
+
+                <a href="phishing.html" class="training-card phish-card">
+                    <i class="fa-solid fa-envelope-open-text card-icon"></i>
+                    <span class="card-text">Phishing Trainer</span>
+                </a>
+
+                <a href="password.html" class="training-card pass-card">
+                    <i class="fa-solid fa-key card-icon"></i>
+                    <span class="card-text">Password Analyzer</span>
+                </a>
+            </div>
+
+        </section>
+
+        <!-- DASHBOARD (Moved to Bottom) -->
+        <section class="dashboard reveal">
+            <h2 class="training-title"
+                style="grid-column: span 12; margin-top: 20px; margin-bottom: 40px; text-align: center;">User Dashboard
+            </h2>
+
+            <!-- Row 1: Analytics Hero -->
+            <div class="dash-card col-7">
+                <h3><i class="fa-solid fa-chart-line" style="margin-right: 10px;"></i>Performance Analytics</h3>
+                <canvas id="chartCanvas"></canvas>
+            </div>
+
+            <!-- Refined Mission Progress Card -->
+            <div class="dash-card col-5">
+                <h3><i class="fa-solid fa-bolt" style="margin-right: 10px;"></i>Mission Progress</h3>
+                <div class="xp-split-container">
+                    <div class="xp-stat">
+                        <span class="xp-label"><i class="fa-solid fa-shield-halved"></i> CYBER</span>
+                        <h2 id="cyberXPValue">0 XP</h2>
+                    </div>
+                    <div class="xp-divider"></div>
+                    <div class="xp-stat">
+                        <span class="xp-label"><i class="fa-solid fa-robot"></i> AI</span>
+                        <h2 id="aiXPValue">0 XP</h2>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="rankCelebration" class="rank-celebration">
+                <h1 style="font-size: 60px; color: #00ff88; text-shadow: 0 0 20px #00ff88;">RANK UP!</h1>
+                <h2 id="newRankLabel" style="font-size: 30px; color: #fff;">Cyber Master</h2>
+            </div>
+
+            <!-- Row 2: Secondary Support -->
+            <div class="dash-card col-4">
+                <h3><i class="fa-solid fa-flag-checkered" style="margin-right: 10px;"></i>CTF Progress</h3>
+                <h1>24</h1>
+                <p>5 Active Simulations running</p>
+            </div>
+
+            <div class="dash-card col-4">
+                <h3><i class="fa-solid fa-clock" style="margin-right: 10px;"></i>Study Hours</h3>
+                <h1>38 <small style="font-size: 14px; opacity:0.6;">hrs</small></h1>
+                <p><span class="positive" style="color:#00ff88;">+6.2 hrs</span> logged</p>
+            </div>
+
+            <div class="dash-card col-4">
+                <h3><i class="fa-solid fa-list-check" style="margin-right: 10px;"></i>Upcoming Tasks</h3>
+                <ul class="task-list">
+                    <li>SQL Injection Lab - Module 4</li>
+                    <li>Cryptography Advanced Challenge</li>
+                    <li>Phishing Simulation Response</li>
+                </ul>
+            </div>
+
+            <!-- Row 3: Calendar & Mastery (Smaller) -->
+            <div class="dash-card col-7">
+                <h3><i class="fa-solid fa-calendar-days" style="margin-right: 10px;"></i>Mission Calendar</h3>
+                <div class="calendar-header">
+                    <button onclick="changeMonth(-1)">◀</button>
+                    <h4 id="monthYear"></h4>
+                    <button onclick="changeMonth(1)">▶</button>
+                </div>
+                <div id="calendar" class="dashboard-calendar"></div>
+            </div>
+
+            <div class="dash-card col-5">
+                <h3><i class="fa-solid fa-circle-notch" style="margin-right: 10px;"></i>Mastery</h3>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%;">
+                    <div class="progress-container" style="width: 150px; height: 150px; margin: 0;">
+                        <svg width="150" height="150">
+                            <circle cx="75" cy="75" r="65" stroke="#1a1a1a" stroke-width="8" fill="none" />
+                            <circle id="progressCircle" cx="75" cy="75" r="65" stroke="#7f00ff" stroke-width="8"
+                                fill="none" stroke-linecap="round" stroke-dasharray="408" stroke-dashoffset="408" />
+                        </svg>
+                        <div class="progress-text">
+                            <span id="progressPercent" style="font-size: 22px;">0%</span>
+                        </div>
+                    </div>
+                    <div class="mastery-tips" style="width: 100%;">
+                        <div class="tip-box" style="padding: 8px 12px; margin-bottom: 5px;">
+                            <i class="fa-solid fa-lightbulb" style="font-size: 12px;"></i>
+                            <span style="font-size: 12px;">Use MFA</span>
+                        </div>
+                        <div class="tip-box" style="padding: 8px 12px;">
+                            <i class="fa-solid fa-shield" style="font-size: 12px;"></i>
+                            <span style="font-size: 12px;">Check HTTPS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESTORED MODAL -->
+            <div id="taskModal" class="modal">
+                <div class="modal-overlay" onclick="closeModal()"></div>
+                <div class="modal-content">
+                    <div class="modal-close">
+                        <button onclick="closeModal()" class="close-btn">✕</button>
+                    </div>
+                    <h3 id="modalDate"></h3>
+                    <input type="text" id="taskInput" placeholder="Enter task...">
+                    <button onclick="saveTask()">Add Task</button>
+                    <ul id="taskList" class="draggable-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Overview Video Section -->
+        <section class="overview-section reveal">
+            <h2 class="training-title" style="text-align: center; margin-bottom: 20px;">Platform Intelligence Overview
+            </h2>
+            <p class="training-desc" style="text-align: center; margin-bottom: 40px;">
+                Master the CyberForge ecosystem and learn how to navigate your tactical training modules.
+            </p>
+            <div class="video-container">
+                <video controls preload="metadata">
+                    <source src="overview.mov" type="video/mp4">
+                    <source src="overview.mov" type="video/quicktime">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <!-- Brand & Community -->
+            <div class="footer-section">
+                <h1 class="logo glitch" style="font-size: 1.5rem; margin-bottom: 15px;">CyberForge AI</h1>
+                <p>Advancing security through decentralized intelligence and elite training simulations.</p>
+                <div class="community-box">
+                    <a href="mailto:horcuxhunters179@gmail.com" class="gmail-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>EMAIL US</span>
+                    </a>
+                    <div class="email-reveal-text">horcuxhunters179@gmail.com</div>
+                    <a href="https://Discord.com/users/1475851199935807561" class="discord-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>DISCORD // JUST5</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Site Navigation -->
+            <div class="footer-section">
+                <h4>Intelligence Ops</h4>
+                <ul class="footer-links">
+                    <li><a href="cyber.html">Command Center</a></li>
+                    <li><a href="cybersecurity.html">Cyber Foundations</a></li>
+                    <li><a href="AI.html">AI Security Hub</a></li>
+                    <li><a href="insights.html">Laws & Ethics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tactical Training -->
+            <div class="footer-section">
+                <h4>Tactical Modules</h4>
+                <ul class="footer-links">
+                    <li><a href="ctf.html">Capture The Flag</a></li>
+                    <li><a href="virtual-labs.html">Virtual Labs</a></li>
+                    <li><a href="phishing.html">Phishing Trainer</a></li>
+                    <li><a href="password.html">Password Analyzer</a></li>
+                </ul>
+            </div>
+
+            <!-- Systems Status -->
+            <div class="footer-section">
+                <h4>Neural Status</h4>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>SYSTEMS OPERATIONAL</span>
+                </div>
+                <p style="margin-top: 15px; font-family: 'Space Mono', monospace; font-size: 10px;">
+                    AI Core: v4.2.0-Alpha<br>
+                    Uptime: 99.9%<br>
+                    Security: Level 5
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2026 CyberForge AI. Secure Transmission Guaranteed.</p>
+            </div>
+
+            <div class="designer-credits">
+                Crafted by <span>N Narasimha Rao</span> & <span>Anudeep Y</span> & <span>K Veera Venkat</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="api-config.js"></script>
+    <script src="state.js"></script>
+    <script src="cyber.js"></script>
+    <script src="auth-ui.js"></script>
+</body>
+
+</html>
