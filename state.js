@@ -5,7 +5,8 @@
 
 const CyberState = (() => {
 
-    const API = (window.API_BASE_URL || "http://localhost:4000") + "/api";
+    const API_BASE = window.API_BASE_URL || "http://localhost:4000";
+    const API = API_BASE + "/api";
 
     // NOTE: If you deploy your backend to a DIFFERENT domain (e.g. Render), 
     // replace the second line above with your Render URL (e.g. "https://your-api.onrender.com/api")

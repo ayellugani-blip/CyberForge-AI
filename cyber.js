@@ -874,7 +874,7 @@ async function initNewsSection() {
 
     try {
         // 2. Fetch News from API
-        const response = await fetch("http://localhost:4000/api/news");
+        const response = await fetch(`${window.API_BASE_URL}/api/news`);
         if (!response.ok) throw new Error("News source unavailable");
 
         const newsData = await response.json();
