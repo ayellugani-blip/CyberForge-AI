@@ -874,7 +874,7 @@ async function initNewsSection() {
 
     try {
         // 2. Fetch News from API
-        const response = await fetch(`${window.API_BASE_URL}/api/news`);
+        const response = await fetch(`${window.API_BASE_URL}/api/news`, { cache: 'no-store' });
         if (!response.ok) throw new Error("News source unavailable");
 
         const newsData = await response.json();
